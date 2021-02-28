@@ -7,6 +7,7 @@
 bin/
 obj/
 .vscode/
+*.db
 
 # Common node modules locations
 /node_modules
