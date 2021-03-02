@@ -1,24 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import "./App.css";
+import axios from "axios";
+import { Header, List } from "semantic-ui-react";
 
 function App() {
+  const [efforts, setEfforts] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/effort").then((response) => {
+      console.log(response);
+      setEfforts(response.data);
+    });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Header as="h2" icon="users" content="Bug-Ray" />
+      <List>
+        {efforts.map((effort: any) => (
+          <List.Item key={effort.id}>{effort.title}</List.Item>
+        ))}
+      </List>
     </div>
   );
 }
