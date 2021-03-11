@@ -1,16 +1,16 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Domain;
 using MediatR;
 using Persistance;
 
-namespace Application.EffortBL
+namespace Application.ProjectBL
 {
-    public class Delete
+    public class Create
     {
         public class Command : IRequest
         {
-            public Guid Id { get; set; }
+            public Project Project { get; set; }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -23,11 +23,12 @@ namespace Application.EffortBL
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var effort = await _context.Efforts.FindAsync(request.Id);
+                _context.Projects.Add(request.Project);
 
-                _context.Remove(effort);
                 await _context.SaveChangesAsync();
+
                 return Unit.Value;
+
             }
         }
     }

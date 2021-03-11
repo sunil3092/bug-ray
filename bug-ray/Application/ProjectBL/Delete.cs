@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Persistance;
 
-namespace Application.EffortBL
+namespace Application.ProjectBL
 {
     public class Delete
     {
@@ -23,9 +23,9 @@ namespace Application.EffortBL
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var effort = await _context.Efforts.FindAsync(request.Id);
+                var project = await _context.Projects.FindAsync(request.Id);
 
-                _context.Remove(effort);
+                _context.Remove(project);
                 await _context.SaveChangesAsync();
                 return Unit.Value;
             }

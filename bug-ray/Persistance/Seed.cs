@@ -11,9 +11,35 @@ namespace Persistence
     {
         public static async Task SeedData(DataContext context)
         {
-            if (context.Efforts.Any()) return;
+            if (!context.Projects.Any())
+            {
 
-            var efforts = new List<Effort>
+                var projects = new List<Project>
+            {
+                new Project
+                {
+                    Name = "Inventory Management",
+                    Description="General Purpose inventory management",
+                    Estimate = DateTime.Now.AddYears(2),
+                    IsFavourate = false,
+                },
+
+                new Project
+                {
+                    Name = "Attendence Management",
+                    Description="Compnay Attendence managemnt management",
+                    Estimate = DateTime.Now.AddYears(1),
+                    IsFavourate = true,
+                },
+            };
+                await context.Projects.AddRangeAsync(projects);
+                await context.SaveChangesAsync();
+            }
+
+            if (!context.Efforts.Any())
+            {
+
+                var efforts = new List<Effort>
             {
                 new Effort
                 {
@@ -63,8 +89,10 @@ namespace Persistence
 
             };
 
-            await context.Efforts.AddRangeAsync(efforts);
-            await context.SaveChangesAsync();
+                await context.Efforts.AddRangeAsync(efforts);
+                await context.SaveChangesAsync();
+            }
         }
+
     }
 }

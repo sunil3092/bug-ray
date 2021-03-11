@@ -8,6 +8,7 @@ namespace Application.Core
         public MappingProfiles()
         {
             CreateMap<Effort, Effort>();
+            CreateMap<Project, Project>();
         }
     }
 }

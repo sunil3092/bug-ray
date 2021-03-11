@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import axios from "axios";
-import { List } from "semantic-ui-react";
+import { Container, List } from "semantic-ui-react";
 import { Effort } from "../models/effort";
 import Navbar from "./Navbar";
 
@@ -15,14 +15,16 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <>
       <Navbar />
-      <List>
-        {efforts.map((effort) => (
-          <List.Item key={effort.id}>{effort.title}</List.Item>
-        ))}
-      </List>
-    </div>
+      <Container style={{ marginTop: "7em" }}>
+        <List>
+          {efforts.map((effort) => (
+            <List.Item key={effort.id}>{effort.title}</List.Item>
+          ))}
+        </List>
+      </Container>
+    </>
   );
 }
 

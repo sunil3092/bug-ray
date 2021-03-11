@@ -10,5 +10,6 @@ namespace Persistance
         }
 
         public DbSet<Effort> Efforts { get; set; }
+        public DbSet<Project> Projects { get; set; }
     }
 }
