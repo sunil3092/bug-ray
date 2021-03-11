@@ -3,15 +3,18 @@ import axios from "axios";
 import { Container, List } from "semantic-ui-react";
 import { Effort } from "../models/effort";
 import Navbar from "./Navbar";
+import { Project } from "../models/project";
 
 function App() {
-  const [efforts, setEfforts] = useState<Effort[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
 
   useEffect(() => {
-    axios.get<Effort[]>("http://localhost:5000/api/effort").then((response) => {
-      console.log(response);
-      setEfforts(response.data);
-    });
+    axios
+      .get<Project[]>("http://localhost:5000/api/project")
+      .then((response) => {
+        console.log(response);
+        setProjects(response.data);
+      });
   }, []);
 
   return (
@@ -19,8 +22,8 @@ function App() {
       <Navbar />
       <Container style={{ marginTop: "7em" }}>
         <List>
-          {efforts.map((effort) => (
-            <List.Item key={effort.id}>{effort.title}</List.Item>
+          {projects.map((project) => (
+            <List.Item key={project.id}>{project.name}</List.Item>
           ))}
         </List>
       </Container>
