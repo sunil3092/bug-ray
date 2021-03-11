@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using Domain;
 using MediatR;
 using Persistance;
@@ -16,8 +17,10 @@ namespace Application.EffortBL
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _dataContext;
-            public Handler(DataContext dataContext)
+            private readonly IMapper _mapper;
+            public Handler(DataContext dataContext, IMapper mapper)
             {
+                _mapper = mapper;
                 _dataContext = dataContext;
             }
 
@@ -25,7 +28,7 @@ namespace Application.EffortBL
             {
                 var effort = await _dataContext.Efforts.FindAsync(request.Effort.Id);
 
-                effort.Title = request.Effort.Title ?? effort.Title;
+                _mapper.Map(request.Effort, effort);
 
                 await _dataContext.SaveChangesAsync();
 
