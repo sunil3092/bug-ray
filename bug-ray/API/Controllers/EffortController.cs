@@ -27,5 +27,13 @@ namespace API.Controllers
         {
             return Ok(await Mediator.Send(new Create.Command { Effort = effort }));
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateEffort(Guid Id, Effort effort)
+        {
+            effort.Id = Id;
+
+            return Ok(await Mediator.Send(new Edit.Command { Effort = effort }));
+        }
     }
 }
