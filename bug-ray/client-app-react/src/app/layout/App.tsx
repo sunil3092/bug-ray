@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import "./App.css";
 import axios from "axios";
-import { Header, List } from "semantic-ui-react";
+import { List } from "semantic-ui-react";
+import { Effort } from "../models/effort";
+import Navbar from "./Navbar";
 
 function App() {
-  const [efforts, setEfforts] = useState([]);
+  const [efforts, setEfforts] = useState<Effort[]>([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/effort").then((response) => {
+    axios.get<Effort[]>("http://localhost:5000/api/effort").then((response) => {
       console.log(response);
       setEfforts(response.data);
     });
@@ -15,9 +16,9 @@ function App() {
 
   return (
     <div>
-      <Header as="h2" icon="users" content="Bug-Ray" />
+      <Navbar />
       <List>
-        {efforts.map((effort: any) => (
+        {efforts.map((effort) => (
           <List.Item key={effort.id}>{effort.title}</List.Item>
         ))}
       </List>
