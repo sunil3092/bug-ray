@@ -7,7 +7,7 @@ const Navbar = () => {
       <Menu.Item icon="bug" className="whiteGlow" />
       <Menu.Item name="Bug-Ray" />
       <Menu.Item>
-        <Button positive content="Add Effort" />
+        <Button positive content="Add Project" />
       </Menu.Item>
     </Menu>
   );

@@ -1,12 +1,13 @@
 import React, { Fragment, useEffect, useState } from "react";
 import axios from "axios";
-import { Container, List } from "semantic-ui-react";
+import { Container } from "semantic-ui-react";
 import Navbar from "./Navbar";
 import { Project } from "../models/project";
 import ProjectDashboard from "../../features/project/dashboard/ProjectDashboard";
 
 function App() {
   const [projects, setProjects] = useState<Project[]>([]);
+  const [selectedProject , setSelectedProject] = useState<Project | undefined>(undefined);
 
   useEffect(() => {
     axios
@@ -21,7 +22,7 @@ function App() {
     <>
       <Navbar />
       <Container style={{ marginTop: "7em" }}>
-        <ProjectDashboard projects={projects}/>
+        <ProjectDashboard projects={projects} />
       </Container>
     </>
   );
