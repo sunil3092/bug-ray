@@ -15,6 +15,7 @@ interface Props {
   closeForm: () => void;
   createOrEdit: (project: Project) => void;
   deleteProject: (id: string) => void;
+  submitting: boolean;
 }
 
 const ProjectDashboard = ({
@@ -27,6 +28,7 @@ const ProjectDashboard = ({
   closeForm,
   createOrEdit,
   deleteProject,
+  submitting
 }: Props) => {
   return (
     <Grid>
@@ -50,6 +52,7 @@ const ProjectDashboard = ({
             closeForm={closeForm}
             createOrEdit={createOrEdit}
             selectedProject={selectedProject}
+            submitting={submitting}
           />
         )}
       </Grid.Column>

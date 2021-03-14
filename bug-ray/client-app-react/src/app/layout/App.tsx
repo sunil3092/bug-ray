@@ -1,10 +1,11 @@
-import React, { Fragment, useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Container } from "semantic-ui-react";
 import Navbar from "./Navbar";
 import { Project } from "../models/project";
 import ProjectDashboard from "../../features/project/dashboard/ProjectDashboard";
 import { v4 as uuid } from "uuid";
+import agent from "../../api/agent";
+import LodingComponet from "./LodingComponet";
 
 function App() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -12,14 +13,19 @@ function App() {
     undefined
   );
   const [editMode, setEditMode] = useState(false);
+  const [loading, setLoding] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    axios
-      .get<Project[]>("http://localhost:5000/api/project")
-      .then((response) => {
-        console.log(response);
-        setProjects(response.data);
+    agent.Projects.list().then((response) => {
+      let projectsList: Project[] = [];
+      response.forEach((project) => {
+        project.estimate = project.estimate.split("T")[0];
+        projectsList.push(project);
       });
+      setProjects(projectsList);
+      setLoding(false);
+    });
   }, []);
 
   function handleSelectedProject(id: string) {
@@ -40,16 +46,31 @@ function App() {
   }
 
   function handleCreateOrEditProject(project: Project) {
-    project.id
-      ? setProjects([...projects.filter((x) => x.id !== project.id), project])
-      : setProjects([...projects, { ...project, id: uuid() }]);
-    setEditMode(false);
-    setSelectedProject(project);
+    setSubmitting(true);
+    if (project.id) {
+      agent.Projects.update(project).then(() => {
+        setProjects([...projects.filter((x) => x.id !== project.id), project]);
+        setSubmitting(false);
+        setSelectedProject(project);
+        setEditMode(false);
+      });
+    } else {
+      project.id = uuid();
+      agent.Projects.create(project).then(() => {
+        setProjects([...projects, project]);
+        setSubmitting(false);
+        setSelectedProject(project);
+        setEditMode(false);
+      });
+    }
   }
 
   function handleDeleteProject(id: string) {
+    
     setProjects([...projects.filter((x) => x.id !== id)]);
   }
+
+  if (loading) return <LodingComponet content="Loading app" />;
 
   return (
     <>
@@ -65,6 +86,7 @@ function App() {
           closeForm={handleFormClose}
           createOrEdit={handleCreateOrEditProject}
           deleteProject={handleDeleteProject}
+          submitting={submitting}
         />
       </Container>
     </>

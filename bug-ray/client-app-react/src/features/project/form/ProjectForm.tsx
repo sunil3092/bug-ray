@@ -6,9 +6,15 @@ interface Props {
   selectedProject: Project | undefined;
   closeForm: () => void;
   createOrEdit: (project: Project) => void;
+  submitting: boolean;
 }
 
-const ProjectForm = ({ selectedProject, closeForm, createOrEdit }: Props) => {
+const ProjectForm = ({
+  selectedProject,
+  closeForm,
+  createOrEdit,
+  submitting,
+}: Props) => {
   const initalState = selectedProject ?? {
     id: "",
     name: "",
@@ -46,8 +52,20 @@ const ProjectForm = ({ selectedProject, closeForm, createOrEdit }: Props) => {
           value={project.description}
           onChange={handleInputChange}
         />
-        <Form.Input placeholder="Estimate" value={project.estimate} />
-        <Button floated="right" positive type="submit" content="Submit" />
+        <Form.Input
+          type="date"
+          name="estimate"
+          placeholder="Estimate"
+          value={project.estimate}
+          onChange={handleInputChange}
+        />
+        <Button
+          loading={submitting}
+          floated="right"
+          positive
+          type="submit"
+          content="Submit"
+        />
         <Button
           floated="right"
           type="button"
