@@ -4,6 +4,7 @@ import { Container } from "semantic-ui-react";
 import Navbar from "./Navbar";
 import { Project } from "../models/project";
 import ProjectDashboard from "../../features/project/dashboard/ProjectDashboard";
+import { v4 as uuid } from "uuid";
 
 function App() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -38,6 +39,18 @@ function App() {
     setEditMode(false);
   }
 
+  function handleCreateOrEditProject(project: Project) {
+    project.id
+      ? setProjects([...projects.filter((x) => x.id !== project.id), project])
+      : setProjects([...projects, { ...project, id: uuid() }]);
+    setEditMode(false);
+    setSelectedProject(project);
+  }
+
+  function handleDeleteProject(id: string) {
+    setProjects([...projects.filter((x) => x.id !== id)]);
+  }
+
   return (
     <>
       <Navbar openForm={handleFormOpen} />
@@ -50,6 +63,8 @@ function App() {
           editMode={editMode}
           openForm={handleFormOpen}
           closeForm={handleFormClose}
+          createOrEdit={handleCreateOrEditProject}
+          deleteProject={handleDeleteProject}
         />
       </Container>
     </>

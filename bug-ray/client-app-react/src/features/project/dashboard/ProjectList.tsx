@@ -5,9 +5,10 @@ import { Project } from "../../../app/models/project";
 interface Props {
   projects: Project[];
   selectProject: (Id: string) => void;
+  deleteProject: (id: string) => void;
 }
 
-const ProjectList = ({ projects, selectProject }: Props) => {
+const ProjectList = ({ projects, selectProject, deleteProject }: Props) => {
   return (
     <Card.Group>
       {projects.map((project) => (
@@ -31,8 +32,12 @@ const ProjectList = ({ projects, selectProject }: Props) => {
               >
                 Select
               </Button>
-              <Button basic color="blue">
-                Track
+              <Button
+                basic
+                color="red"
+                onClick={() => deleteProject(project.id)}
+              >
+                Delete
               </Button>
             </div>
           </Card.Content>

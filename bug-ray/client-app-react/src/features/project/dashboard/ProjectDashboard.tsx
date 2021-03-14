@@ -13,6 +13,8 @@ interface Props {
   editMode: boolean;
   openForm: (Id: string) => void;
   closeForm: () => void;
+  createOrEdit: (project: Project) => void;
+  deleteProject: (id: string) => void;
 }
 
 const ProjectDashboard = ({
@@ -23,11 +25,17 @@ const ProjectDashboard = ({
   editMode,
   openForm,
   closeForm,
+  createOrEdit,
+  deleteProject,
 }: Props) => {
   return (
     <Grid>
       <Grid.Column width="10">
-        <ProjectList projects={projects} selectProject={selectProject} />
+        <ProjectList
+          projects={projects}
+          selectProject={selectProject}
+          deleteProject={deleteProject}
+        />
       </Grid.Column>
       <Grid.Column width="6">
         {selectedProject && !editMode && (
@@ -40,6 +48,7 @@ const ProjectDashboard = ({
         {editMode && (
           <ProjectForm
             closeForm={closeForm}
+            createOrEdit={createOrEdit}
             selectedProject={selectedProject}
           />
         )}
