@@ -7,7 +7,10 @@ import ProjectDashboard from "../../features/project/dashboard/ProjectDashboard"
 
 function App() {
   const [projects, setProjects] = useState<Project[]>([]);
-  const [selectedProject , setSelectedProject] = useState<Project | undefined>(undefined);
+  const [selectedProject, setSelectedProject] = useState<Project | undefined>(
+    undefined
+  );
+  const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
     axios
@@ -18,11 +21,36 @@ function App() {
       });
   }, []);
 
+  function handleSelectedProject(id: string) {
+    setSelectedProject(projects.find((x) => x.id === id));
+  }
+
+  function handleCancelSelectedProject() {
+    setSelectedProject(undefined);
+  }
+
+  function handleFormOpen(Id?: string) {
+    Id ? handleSelectedProject(Id) : handleCancelSelectedProject();
+    setEditMode(true);
+  }
+
+  function handleFormClose() {
+    setEditMode(false);
+  }
+
   return (
     <>
-      <Navbar />
+      <Navbar openForm={handleFormOpen} />
       <Container style={{ marginTop: "7em" }}>
-        <ProjectDashboard projects={projects} />
+        <ProjectDashboard
+          projects={projects}
+          selectedProject={selectedProject}
+          selectProject={handleSelectedProject}
+          cancelProject={handleCancelSelectedProject}
+          editMode={editMode}
+          openForm={handleFormOpen}
+          closeForm={handleFormClose}
+        />
       </Container>
     </>
   );

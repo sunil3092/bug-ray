@@ -4,9 +4,10 @@ import { Project } from "../../../app/models/project";
 
 interface Props {
   projects: Project[];
+  selectProject: (Id: string) => void;
 }
 
-const ProjectList = ({ projects }: Props) => {
+const ProjectList = ({ projects, selectProject }: Props) => {
   return (
     <Card.Group>
       {projects.map((project) => (
@@ -23,7 +24,11 @@ const ProjectList = ({ projects }: Props) => {
           </Card.Content>
           <Card.Content extra>
             <div className="ui two buttons">
-              <Button basic color="green">
+              <Button
+                basic
+                color="green"
+                onClick={() => selectProject(project.id)}
+              >
                 Select
               </Button>
               <Button basic color="blue">

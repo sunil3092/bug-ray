@@ -7,17 +7,42 @@ import ProjectList from "./ProjectList";
 
 interface Props {
   projects: Project[];
+  selectedProject: Project | undefined;
+  selectProject: (Id: string) => void;
+  cancelProject: () => void;
+  editMode: boolean;
+  openForm: (Id: string) => void;
+  closeForm: () => void;
 }
 
-const ProjectDashboard = ({ projects }: Props) => {
+const ProjectDashboard = ({
+  projects,
+  selectProject,
+  selectedProject,
+  cancelProject,
+  editMode,
+  openForm,
+  closeForm,
+}: Props) => {
   return (
     <Grid>
       <Grid.Column width="10">
-        <ProjectList projects={projects} />
+        <ProjectList projects={projects} selectProject={selectProject} />
       </Grid.Column>
       <Grid.Column width="6">
-        {projects[0] && <ProjectDetail project={projects[0]} />}
-        <ProjectForm />
+        {selectedProject && !editMode && (
+          <ProjectDetail
+            project={selectedProject}
+            cancelProject={cancelProject}
+            openForm={openForm}
+          />
+        )}
+        {editMode && (
+          <ProjectForm
+            closeForm={closeForm}
+            selectedProject={selectedProject}
+          />
+        )}
       </Grid.Column>
     </Grid>
   );
