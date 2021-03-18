@@ -6,8 +6,12 @@ import ProjectDashboard from "../../features/project/dashboard/ProjectDashboard"
 import { v4 as uuid } from "uuid";
 import agent from "../../api/agent";
 import LodingComponet from "./LodingComponet";
+import { useStore } from "../stores/store";
+import { observer } from "mobx-react-lite";
 
 function App() {
+  const { projectStore } = useStore();
+
   const [projects, setProjects] = useState<Project[]>([]);
   const [selectedProject, setSelectedProject] = useState<Project | undefined>(
     undefined
@@ -96,4 +100,4 @@ function App() {
   );
 }
 
-export default App;
+export default observer(App);
