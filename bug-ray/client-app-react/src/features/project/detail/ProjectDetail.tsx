@@ -2,7 +2,6 @@ import { observer } from "mobx-react-lite";
 import React from "react";
 import { Button, Card } from "semantic-ui-react";
 import LodingComponet from "../../../app/layout/LodingComponet";
-import { Project } from "../../../app/models/project";
 import { useStore } from "../../../app/stores/store";
 
 const ProjectDetail = () => {

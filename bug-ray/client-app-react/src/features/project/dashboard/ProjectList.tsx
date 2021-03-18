@@ -1,16 +1,12 @@
+import { observer } from "mobx-react-lite";
 import React, { SyntheticEvent, useState } from "react";
 import { Card, Button, Image } from "semantic-ui-react";
-import { Project } from "../../../app/models/project";
 import { useStore } from "../../../app/stores/store";
 
-interface Props {
-  projects: Project[];
-  deleteProject: (id: string) => void;
-  submitting: boolean;
-}
-
-const ProjectList = ({ projects, deleteProject, submitting }: Props) => {
+const ProjectList = () => {
   const { projectStore } = useStore();
+
+  const { projects, deleteProject, loading } = projectStore;
 
   const [target, setTarget] = useState("");
 
@@ -50,7 +46,7 @@ const ProjectList = ({ projects, deleteProject, submitting }: Props) => {
                 basic
                 color="red"
                 onClick={(e) => handleProjectDelete(e, project.id)}
-                loading={submitting && target === project.id}
+                loading={loading && target === project.id}
               >
                 Delete
               </Button>
@@ -62,4 +58,4 @@ const ProjectList = ({ projects, deleteProject, submitting }: Props) => {
   );
 };
 
-export default ProjectList;
+export default observer(ProjectList);

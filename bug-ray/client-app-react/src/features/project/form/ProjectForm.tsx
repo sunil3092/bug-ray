@@ -1,17 +1,17 @@
 import { observer } from "mobx-react-lite";
 import React, { ChangeEvent, useState } from "react";
 import { Button, Form, Segment } from "semantic-ui-react";
-import { Project } from "../../../app/models/project";
 import { useStore } from "../../../app/stores/store";
 
-interface Props {
-  createOrEdit: (project: Project) => void;
-  submitting: boolean;
-}
-
-const ProjectForm = ({ createOrEdit, submitting }: Props) => {
+const ProjectForm = () => {
   const { projectStore } = useStore();
-  const { selectedProject, closeForm } = projectStore;
+  const {
+    selectedProject,
+    loading,
+    closeForm,
+    createProject,
+    updateProject,
+  } = projectStore;
   const initalState = selectedProject ?? {
     id: "",
     name: "",
@@ -23,7 +23,7 @@ const ProjectForm = ({ createOrEdit, submitting }: Props) => {
   const [project, setProject] = useState(initalState);
 
   function handleSubmit() {
-    createOrEdit(project);
+    project.id ? updateProject(project) : createProject(project);
   }
 
   // React makes the inputs readonly by default because it cannot track changes when 'Value' attribute is added. hence onchange needs to be handled seperatley.
@@ -57,7 +57,7 @@ const ProjectForm = ({ createOrEdit, submitting }: Props) => {
           onChange={handleInputChange}
         />
         <Button
-          loading={submitting}
+          loading={loading}
           floated="right"
           positive
           type="submit"

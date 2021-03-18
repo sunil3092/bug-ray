@@ -1,6 +1,7 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../../api/agent";
 import { Project } from "../models/project";
+import { v4 as uuid } from "uuid";
 
 export default class ProjectStore {
   projects: Project[] = [];
@@ -49,5 +50,64 @@ export default class ProjectStore {
 
   closeForm = () => {
     this.editMode = false;
+  };
+
+  createProject = async (project: Project) => {
+    this.loading = true;
+    project.id = uuid();
+    try {
+      await agent.Projects.create(project);
+      runInAction(() => {
+        this.projects.push(project);
+        this.selectedProject = project;
+        this.editMode = false;
+        this.loading = false;
+      });
+    } catch (error) {
+      console.log(error);
+      runInAction(() => {
+        this.loading = false;
+      });
+    }
+  };
+
+  updateProject = async (project: Project) => {
+    this.loading = true;
+    try {
+      await agent.Projects.update(project);
+      runInAction(() => {
+        this.projects = [
+          ...this.projects.filter((p) => p.id !== project.id),
+          project,
+        ];
+        this.selectedProject = project;
+        this.editMode = false;
+        this.loading = false;
+      });
+    } catch (error) {
+      console.log(error);
+      runInAction(() => {
+        this.loading = false;
+      });
+    }
+  };
+
+  deleteProject = async (id: string) => {
+    this.loading = true;
+    try {
+      await agent.Projects.delete(id);
+      runInAction(() => {
+        this.projects = [...this.projects.filter((p) => p.id !== id)];
+        if (this.selectedProject?.id === id) {
+          this.cancelSelectedProject();
+        }
+        this.loading = false;
+      });
+    } catch (error) {
+      console.log(error);
+      runInAction(() => {
+        this.loading = false;
+      });
+    }
   };
 }
