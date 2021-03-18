@@ -1,14 +1,20 @@
+import { observer } from "mobx-react-lite";
 import React from "react";
 import { Button, Card } from "semantic-ui-react";
+import LodingComponet from "../../../app/layout/LodingComponet";
 import { Project } from "../../../app/models/project";
+import { useStore } from "../../../app/stores/store";
 
-interface Props {
-  project: Project;
-  cancelProject: () => void;
-  openForm: (Id: string) => void;
-}
+const ProjectDetail = () => {
+  const { projectStore } = useStore();
+  const {
+    selectedProject: project,
+    openForm,
+    cancelSelectedProject,
+  } = projectStore;
 
-const ProjectDetail = ({ project, cancelProject, openForm }: Props) => {
+  if (!project) return <LodingComponet />;
+
   return (
     <Card fluid>
       {/* <Image src="https://react.semantic-ui.com/images/avatar/large/matthew.png" /> */}
@@ -29,11 +35,16 @@ const ProjectDetail = ({ project, cancelProject, openForm }: Props) => {
             content="Edit"
             onClick={() => openForm(project.id)}
           />
-          <Button basic color="red" content="Cancel" onClick={cancelProject} />
+          <Button
+            basic
+            color="red"
+            content="Cancel"
+            onClick={cancelSelectedProject}
+          />
         </Button.Group>
       </Card.Content>
     </Card>
   );
 };
 
-export default ProjectDetail;
+export default observer(ProjectDetail);

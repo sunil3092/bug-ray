@@ -4,7 +4,7 @@ import { Project } from "../models/project";
 
 export default class ProjectStore {
   projects: Project[] = [];
-  selectedProject: Project | null = null;
+  selectedProject: Project | undefined = undefined;
   editMode = false;
   loading = false;
   lodaingInital = false;
@@ -32,5 +32,22 @@ export default class ProjectStore {
 
   setLoadingInital = (state: boolean) => {
     this.lodaingInital = state;
+  };
+
+  selectProject = (id: string) => {
+    this.selectedProject = this.projects.find((p) => p.id === id);
+  };
+
+  cancelSelectedProject = () => {
+    this.selectedProject = undefined;
+  };
+
+  openForm = (id?: string) => {
+    id ? this.selectProject(id) : this.cancelSelectedProject();
+    this.editMode = true;
+  };
+
+  closeForm = () => {
+    this.editMode = false;
   };
 }

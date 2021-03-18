@@ -1,20 +1,17 @@
 import React, { SyntheticEvent, useState } from "react";
 import { Card, Button, Image } from "semantic-ui-react";
 import { Project } from "../../../app/models/project";
+import { useStore } from "../../../app/stores/store";
 
 interface Props {
   projects: Project[];
-  selectProject: (Id: string) => void;
   deleteProject: (id: string) => void;
   submitting: boolean;
 }
 
-const ProjectList = ({
-  projects,
-  selectProject,
-  deleteProject,
-  submitting,
-}: Props) => {
+const ProjectList = ({ projects, deleteProject, submitting }: Props) => {
+  const { projectStore } = useStore();
+
   const [target, setTarget] = useState("");
 
   function handleProjectDelete(
@@ -44,7 +41,7 @@ const ProjectList = ({
               <Button
                 basic
                 color="green"
-                onClick={() => selectProject(project.id)}
+                onClick={() => projectStore.selectProject(project.id)}
               >
                 Select
               </Button>

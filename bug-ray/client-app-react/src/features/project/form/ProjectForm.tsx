@@ -1,20 +1,17 @@
+import { observer } from "mobx-react-lite";
 import React, { ChangeEvent, useState } from "react";
 import { Button, Form, Segment } from "semantic-ui-react";
 import { Project } from "../../../app/models/project";
+import { useStore } from "../../../app/stores/store";
 
 interface Props {
-  selectedProject: Project | undefined;
-  closeForm: () => void;
   createOrEdit: (project: Project) => void;
   submitting: boolean;
 }
 
-const ProjectForm = ({
-  selectedProject,
-  closeForm,
-  createOrEdit,
-  submitting,
-}: Props) => {
+const ProjectForm = ({ createOrEdit, submitting }: Props) => {
+  const { projectStore } = useStore();
+  const { selectedProject, closeForm } = projectStore;
   const initalState = selectedProject ?? {
     id: "",
     name: "",
@@ -77,4 +74,4 @@ const ProjectForm = ({
   );
 };
 
-export default ProjectForm;
+export default observer(ProjectForm);

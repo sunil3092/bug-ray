@@ -23,23 +23,6 @@ function App() {
     projectStore.loadProjects();
   }, [projectStore]);
 
-  function handleSelectedProject(id: string) {
-    setSelectedProject(projects.find((x) => x.id === id));
-  }
-
-  function handleCancelSelectedProject() {
-    setSelectedProject(undefined);
-  }
-
-  function handleFormOpen(Id?: string) {
-    Id ? handleSelectedProject(Id) : handleCancelSelectedProject();
-    setEditMode(true);
-  }
-
-  function handleFormClose() {
-    setEditMode(false);
-  }
-
   function handleCreateOrEditProject(project: Project) {
     setSubmitting(true);
     if (project.id) {
@@ -47,7 +30,7 @@ function App() {
         setProjects([...projects.filter((x) => x.id !== project.id), project]);
         setSubmitting(false);
         setSelectedProject(project);
-        setEditMode(false);
+        projectStore.editMode = false;
       });
     } else {
       project.id = uuid();
@@ -55,7 +38,7 @@ function App() {
         setProjects([...projects, project]);
         setSubmitting(false);
         setSelectedProject(project);
-        setEditMode(false);
+        projectStore.editMode = false;
       });
     }
   }
@@ -73,16 +56,10 @@ function App() {
 
   return (
     <>
-      <Navbar openForm={handleFormOpen} />
+      <Navbar />
       <Container style={{ marginTop: "7em" }}>
         <ProjectDashboard
           projects={projectStore.projects}
-          selectedProject={selectedProject}
-          selectProject={handleSelectedProject}
-          cancelProject={handleCancelSelectedProject}
-          editMode={editMode}
-          openForm={handleFormOpen}
-          closeForm={handleFormClose}
           createOrEdit={handleCreateOrEditProject}
           deleteProject={handleDeleteProject}
           submitting={submitting}

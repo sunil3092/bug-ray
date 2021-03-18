@@ -1,17 +1,19 @@
 import React from "react";
 import { Button, Menu } from "semantic-ui-react";
+import { useStore } from "../stores/store";
 
-interface Props {
-  openForm: () => void;
-}
-
-const Navbar = ({ openForm }: Props) => {
+const Navbar = () => {
+  const { projectStore } = useStore();
   return (
     <Menu inverted fixed="top" size="huge">
       <Menu.Item icon="bug" className="whiteGlow" />
       <Menu.Item name="Bug-Ray" />
       <Menu.Item>
-        <Button positive content="Add Project" onClick={openForm} />
+        <Button
+          positive
+          content="Add Project"
+          onClick={() => projectStore.openForm()}
+        />
       </Menu.Item>
     </Menu>
   );
