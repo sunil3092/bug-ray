@@ -17,20 +17,11 @@ function App() {
     undefined
   );
   const [editMode, setEditMode] = useState(false);
-  const [loading, setLoding] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    agent.Projects.list().then((response) => {
-      let projectsList: Project[] = [];
-      response.forEach((project) => {
-        project.estimate = project.estimate.split("T")[0];
-        projectsList.push(project);
-      });
-      setProjects(projectsList);
-      setLoding(false);
-    });
-  }, []);
+    projectStore.loadProjects();
+  }, [projectStore]);
 
   function handleSelectedProject(id: string) {
     setSelectedProject(projects.find((x) => x.id === id));
@@ -77,14 +68,15 @@ function App() {
     });
   }
 
-  if (loading) return <LodingComponet content="Loading app" />;
+  if (projectStore.lodaingInital)
+    return <LodingComponet content="Loading app" />;
 
   return (
     <>
       <Navbar openForm={handleFormOpen} />
       <Container style={{ marginTop: "7em" }}>
         <ProjectDashboard
-          projects={projects}
+          projects={projectStore.projects}
           selectedProject={selectedProject}
           selectProject={handleSelectedProject}
           cancelProject={handleCancelSelectedProject}
