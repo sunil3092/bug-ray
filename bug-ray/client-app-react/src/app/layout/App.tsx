@@ -66,8 +66,11 @@ function App() {
   }
 
   function handleDeleteProject(id: string) {
-    
-    setProjects([...projects.filter((x) => x.id !== id)]);
+    setSubmitting(true);
+    agent.Projects.delete(id).then(() => {
+      setProjects([...projects.filter((x) => x.id !== id)]);
+      setSubmitting(false);
+    });
   }
 
   if (loading) return <LodingComponet content="Loading app" />;

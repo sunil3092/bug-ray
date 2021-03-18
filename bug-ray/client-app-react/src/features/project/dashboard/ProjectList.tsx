@@ -1,4 +1,4 @@
-import React from "react";
+import React, { SyntheticEvent, useState } from "react";
 import { Card, Button, Image } from "semantic-ui-react";
 import { Project } from "../../../app/models/project";
 
@@ -6,9 +6,25 @@ interface Props {
   projects: Project[];
   selectProject: (Id: string) => void;
   deleteProject: (id: string) => void;
+  submitting: boolean;
 }
 
-const ProjectList = ({ projects, selectProject, deleteProject }: Props) => {
+const ProjectList = ({
+  projects,
+  selectProject,
+  deleteProject,
+  submitting,
+}: Props) => {
+  const [target, setTarget] = useState("");
+
+  function handleProjectDelete(
+    e: SyntheticEvent<HTMLButtonElement>,
+    id: string
+  ) {
+    setTarget(e.currentTarget.name);
+    deleteProject(id);
+  }
+
   return (
     <Card.Group>
       {projects.map((project) => (
@@ -33,9 +49,11 @@ const ProjectList = ({ projects, selectProject, deleteProject }: Props) => {
                 Select
               </Button>
               <Button
+                name={project.id}
                 basic
                 color="red"
-                onClick={() => deleteProject(project.id)}
+                onClick={(e) => handleProjectDelete(e, project.id)}
+                loading={submitting && target === project.id}
               >
                 Delete
               </Button>

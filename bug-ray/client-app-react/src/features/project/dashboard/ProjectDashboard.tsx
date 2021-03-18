@@ -37,6 +37,7 @@ const ProjectDashboard = ({
           projects={projects}
           selectProject={selectProject}
           deleteProject={deleteProject}
+          submitting={submitting}
         />
       </Grid.Column>
       <Grid.Column width="6">
