@@ -4,24 +4,28 @@ import { Project } from "../models/project";
 import { v4 as uuid } from "uuid";
 
 export default class ProjectStore {
-  projects: Project[] = [];
+  projectRegistry = new Map<string, Project>();
   selectedProject: Project | undefined = undefined;
   editMode = false;
   loading = false;
-  lodaingInital = false;
+  lodaingInital = true;
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  loadProjects = async () => {
-    this.setLoadingInital(true);
+  get projectsByDate() {
+    return Array.from(this.projectRegistry.values()).sort(
+      (a, b) => Date.parse(a.estimate) - Date.parse(b.estimate)
+    );
+  }
 
+  loadProjects = async () => {
     try {
       const projects = await agent.Projects.list();
       projects.forEach((project) => {
         project.estimate = project.estimate.split("T")[0];
-        this.projects.push(project);
+        this.projectRegistry.set(project.id, project);
       });
 
       this.setLoadingInital(false);
@@ -36,7 +40,7 @@ export default class ProjectStore {
   };
 
   selectProject = (id: string) => {
-    this.selectedProject = this.projects.find((p) => p.id === id);
+    this.selectedProject = this.projectRegistry.get(id);
   };
 
   cancelSelectedProject = () => {
@@ -58,7 +62,7 @@ export default class ProjectStore {
     try {
       await agent.Projects.create(project);
       runInAction(() => {
-        this.projects.push(project);
+        this.projectRegistry.set(project.id, project);
         this.selectedProject = project;
         this.editMode = false;
         this.loading = false;
@@ -76,10 +80,7 @@ export default class ProjectStore {
     try {
       await agent.Projects.update(project);
       runInAction(() => {
-        this.projects = [
-          ...this.projects.filter((p) => p.id !== project.id),
-          project,
-        ];
+        this.projectRegistry.set(project.id, project);
         this.selectedProject = project;
         this.editMode = false;
         this.loading = false;
@@ -97,7 +98,7 @@ export default class ProjectStore {
     try {
       await agent.Projects.delete(id);
       runInAction(() => {
-        this.projects = [...this.projects.filter((p) => p.id !== id)];
+        this.projectRegistry.delete(id);
         if (this.selectedProject?.id === id) {
           this.cancelSelectedProject();
         }

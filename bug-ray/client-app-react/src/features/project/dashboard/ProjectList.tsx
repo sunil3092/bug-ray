@@ -6,7 +6,7 @@ import { useStore } from "../../../app/stores/store";
 const ProjectList = () => {
   const { projectStore } = useStore();
 
-  const { projects, deleteProject, loading } = projectStore;
+  const { projectsByDate: projects, deleteProject, loading } = projectStore;
 
   const [target, setTarget] = useState("");
 
