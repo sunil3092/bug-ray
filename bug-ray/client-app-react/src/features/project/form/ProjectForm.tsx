@@ -1,25 +1,32 @@
 import { observer } from "mobx-react-lite";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { useParams } from "react-router";
 import { Button, Form, Segment } from "semantic-ui-react";
+import LodingComponet from "../../../app/layout/LodingComponet";
 import { useStore } from "../../../app/stores/store";
 
 const ProjectForm = () => {
   const { projectStore } = useStore();
   const {
-    selectedProject,
     loading,
     createProject,
     updateProject,
+    loadProject,
+    lodaingInital,
   } = projectStore;
-  const initalState = selectedProject ?? {
+
+  const { id } = useParams<{ id: string }>();
+  const [project, setProject] = useState({
     id: "",
     name: "",
     description: "",
     estimate: "",
     isFavourate: false,
-  };
+  });
 
-  const [project, setProject] = useState(initalState);
+  useEffect(() => {
+    if (id) loadProject(id).then((project) => setProject(project!));
+  }, [id, loadProject]);
 
   function handleSubmit() {
     project.id ? updateProject(project) : createProject(project);
@@ -32,6 +39,8 @@ const ProjectForm = () => {
     const { name, value } = event.target;
     setProject({ ...project, [name]: value });
   }
+
+  if (lodaingInital && id) return <LodingComponet content="Loading Project" />;
 
   return (
     <Segment clearing>

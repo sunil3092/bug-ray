@@ -38,12 +38,17 @@ export default class ProjectStore {
     let project = this.getProject(id);
     if (project) {
       this.selectedProject = project;
+      return project;
     } else {
       this.lodaingInital = true;
       try {
         project = await agent.Projects.details(id);
         this.setProject(project);
+        runInAction(() => {
+          this.selectedProject = project;
+        });
         this.setLoadingInital(false);
+        return project;
       } catch (error) {
         console.log(error);
         this.setLoadingInital(false);

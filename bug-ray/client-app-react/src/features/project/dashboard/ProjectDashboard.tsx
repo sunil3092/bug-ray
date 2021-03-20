@@ -3,13 +3,10 @@ import React, { useEffect } from "react";
 import { Grid } from "semantic-ui-react";
 import LodingComponet from "../../../app/layout/LodingComponet";
 import { useStore } from "../../../app/stores/store";
-import ProjectDetail from "../detail/ProjectDetail";
-import ProjectForm from "../form/ProjectForm";
 import ProjectList from "./ProjectList";
 
 const ProjectDashboard = () => {
   const { projectStore } = useStore();
-  const { selectedProject, editMode } = projectStore;
 
   useEffect(() => {
     projectStore.loadProjects();
@@ -24,8 +21,7 @@ const ProjectDashboard = () => {
         <ProjectList />
       </Grid.Column>
       <Grid.Column width="6">
-        {selectedProject && !editMode && <ProjectDetail />}
-        {editMode && <ProjectForm />}
+        <h1>Filters</h1>
       </Grid.Column>
     </Grid>
   );

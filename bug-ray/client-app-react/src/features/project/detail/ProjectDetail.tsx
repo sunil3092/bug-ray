@@ -1,16 +1,24 @@
 import { observer } from "mobx-react-lite";
-import React from "react";
+import React, { useEffect } from "react";
+import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import { Button, Card } from "semantic-ui-react";
 import LodingComponet from "../../../app/layout/LodingComponet";
 import { useStore } from "../../../app/stores/store";
 
 const ProjectDetail = () => {
   const { projectStore } = useStore();
-  const {
-    selectedProject: project,
-  } = projectStore;
+  const { selectedProject: project, loadProject, lodaingInital } = projectStore;
 
-  if (!project) return <LodingComponet />;
+  //Extracting value form URL (UsePrams is hook form React-Rocuter-Dom)
+  const { id } = useParams<{ id: string }>();
+
+  //Use Extracted Id from URL to load the data on load of page
+  useEffect(() => {
+    if (id) loadProject(id);
+  }, [loadProject, id]);
+
+  if (lodaingInital || !project) return <LodingComponet />;
 
   return (
     <Card fluid>
@@ -27,15 +35,13 @@ const ProjectDetail = () => {
       <Card.Content extra>
         <Button.Group widths="2">
           <Button
+            as={Link}
+            to={`/manage/${project.id}`}
             basic
             color="blue"
             content="Edit"
           />
-          <Button
-            basic
-            color="red"
-            content="Cancel"
-          />
+          <Button as={Link} to="/projects" basic color="red" content="Cancel" />
         </Button.Group>
       </Card.Content>
     </Card>
