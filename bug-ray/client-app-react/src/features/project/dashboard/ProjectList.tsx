@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { SyntheticEvent, useState } from "react";
+import { NavLink } from "react-router-dom";
 import { Card, Button, Image } from "semantic-ui-react";
 import { useStore } from "../../../app/stores/store";
 
@@ -37,7 +38,8 @@ const ProjectList = () => {
               <Button
                 basic
                 color="green"
-                onClick={() => projectStore.selectProject(project.id)}
+                as={NavLink}
+                to={`/projects/${project.id}`}
               >
                 Select
               </Button>

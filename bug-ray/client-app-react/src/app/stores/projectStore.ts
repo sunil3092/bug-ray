@@ -24,8 +24,7 @@ export default class ProjectStore {
     try {
       const projects = await agent.Projects.list();
       projects.forEach((project) => {
-        project.estimate = project.estimate.split("T")[0];
-        this.projectRegistry.set(project.id, project);
+        this.setProject(project);
       });
 
       this.setLoadingInital(false);
@@ -35,25 +34,36 @@ export default class ProjectStore {
     }
   };
 
+  loadProject = async (id: string) => {
+    let project = this.getProject(id);
+    if (project) {
+      this.selectedProject = project;
+    } else {
+      this.lodaingInital = true;
+      try {
+        project = await agent.Projects.details(id);
+        this.setProject(project);
+        this.setLoadingInital(false);
+      } catch (error) {
+        console.log(error);
+        this.setLoadingInital(false);
+      }
+    }
+  };
+
+  //Helper Method
+  private setProject = (project: Project) => {
+    project.estimate = project.estimate.split("T")[0];
+    this.projectRegistry.set(project.id, project);
+  };
+
+  //Helper Method
+  private getProject = (id: string) => {
+    return this.projectRegistry.get(id);
+  };
+
   setLoadingInital = (state: boolean) => {
     this.lodaingInital = state;
-  };
-
-  selectProject = (id: string) => {
-    this.selectedProject = this.projectRegistry.get(id);
-  };
-
-  cancelSelectedProject = () => {
-    this.selectedProject = undefined;
-  };
-
-  openForm = (id?: string) => {
-    id ? this.selectProject(id) : this.cancelSelectedProject();
-    this.editMode = true;
-  };
-
-  closeForm = () => {
-    this.editMode = false;
   };
 
   createProject = async (project: Project) => {
@@ -99,9 +109,6 @@ export default class ProjectStore {
       await agent.Projects.delete(id);
       runInAction(() => {
         this.projectRegistry.delete(id);
-        if (this.selectedProject?.id === id) {
-          this.cancelSelectedProject();
-        }
         this.loading = false;
       });
     } catch (error) {

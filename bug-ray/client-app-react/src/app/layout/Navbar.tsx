@@ -1,18 +1,25 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import { Button, Menu } from "semantic-ui-react";
-import { useStore } from "../stores/store";
 
 const Navbar = () => {
-  const { projectStore } = useStore();
   return (
     <Menu inverted fixed="top" size="huge">
-      <Menu.Item icon="bug" className="whiteGlow" />
-      <Menu.Item name="Bug-Ray" />
+      <Menu.Item icon="bug" className="whiteGlow" as={NavLink} to="/" exact />
+      <Menu.Item
+        name="Bug-Ray"
+        as={NavLink}
+        to="/"
+        className="whiteGlow"
+        exact
+      />
+      <Menu.Item name="Projects" as={NavLink} to="/projects" />
       <Menu.Item>
         <Button
           positive
           content="Add Project"
-          onClick={() => projectStore.openForm()}
+          as={NavLink}
+          to="/createProject"
         />
       </Menu.Item>
     </Menu>

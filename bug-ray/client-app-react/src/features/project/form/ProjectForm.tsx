@@ -8,7 +8,6 @@ const ProjectForm = () => {
   const {
     selectedProject,
     loading,
-    closeForm,
     createProject,
     updateProject,
   } = projectStore;
@@ -63,12 +62,7 @@ const ProjectForm = () => {
           type="submit"
           content="Submit"
         />
-        <Button
-          floated="right"
-          type="button"
-          content="Cancel"
-          onClick={closeForm}
-        />
+        <Button floated="right" type="button" content="Cancel" />
       </Form>
     </Segment>
   );

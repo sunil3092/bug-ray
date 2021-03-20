@@ -8,8 +8,6 @@ const ProjectDetail = () => {
   const { projectStore } = useStore();
   const {
     selectedProject: project,
-    openForm,
-    cancelSelectedProject,
   } = projectStore;
 
   if (!project) return <LodingComponet />;
@@ -32,13 +30,11 @@ const ProjectDetail = () => {
             basic
             color="blue"
             content="Edit"
-            onClick={() => openForm(project.id)}
           />
           <Button
             basic
             color="red"
             content="Cancel"
-            onClick={cancelSelectedProject}
           />
         </Button.Group>
       </Card.Content>
