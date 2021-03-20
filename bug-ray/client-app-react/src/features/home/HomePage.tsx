@@ -1,11 +1,24 @@
 import React from "react";
-import { Container } from "semantic-ui-react";
+import { Link } from "react-router-dom";
+import { Container, Segment, Button } from "semantic-ui-react";
 
 const HomePage = () => {
   return (
-    <Container style={{ marginTop: "7em" }}>
-      <h1>Homepage</h1>
-    </Container>
+    <Segment inverted textAlign="center" vertical className="masthead">
+      <Container text>
+        <>
+          <Button
+            as={Link}
+            to="/projects"
+            size="massive"
+            inverted
+            circular
+            icon="bug"
+            className="whiteGlow"
+          />
+        </>
+      </Container>
+    </Segment>
   );
 };
 

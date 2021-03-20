@@ -11,3 +11,11 @@ body {
   color: #ffff;
   text-shadow: 0 0 6px #ffff;
 }
+
+.masthead {
+  display: flex;
+  align-items: center;
+  background-color: #7f5a83;
+  background-image: linear-gradient(315deg, #7f5a83 0%, #0d324d 74%) !important;
+  height: 100vh;
+}

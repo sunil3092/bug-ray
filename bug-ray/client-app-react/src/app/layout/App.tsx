@@ -15,19 +15,26 @@ function App() {
 
   return (
     <>
-      <Navbar />
-      <Container style={{ marginTop: "7em" }}>
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/projects" component={ProjectDashboard} />
-          <Route path="/projects/:id" component={ProjectDetail} />
-          <Route
-            key={location.key}
-            path={["/createProject", "/manage/:id"]}
-            component={ProjectForm}
-          />
-        </Switch>
-      </Container>
+      <Route exact path="/" component={HomePage} />
+      <Route
+        path={"/(.+)"}
+        render={() => (
+          <>
+            <Navbar />
+            <Container style={{ marginTop: "7em" }}>
+              <Switch>
+                <Route exact path="/projects" component={ProjectDashboard} />
+                <Route path="/projects/:id" component={ProjectDetail} />
+                <Route
+                  key={location.key}
+                  path={["/createProject", "/manage/:id"]}
+                  component={ProjectForm}
+                />
+              </Switch>
+            </Container>
+          </>
+        )}
+      />
     </>
   );
 }

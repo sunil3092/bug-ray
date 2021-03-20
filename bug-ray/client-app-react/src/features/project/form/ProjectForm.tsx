@@ -1,11 +1,14 @@
 import { observer } from "mobx-react-lite";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { Button, Form, Segment } from "semantic-ui-react";
 import LodingComponet from "../../../app/layout/LodingComponet";
 import { useStore } from "../../../app/stores/store";
+import { v4 as uuid } from "uuid";
+import { Link } from "react-router-dom";
 
 const ProjectForm = () => {
+  const history = useHistory();
   const { projectStore } = useStore();
   const {
     loading,
@@ -29,7 +32,16 @@ const ProjectForm = () => {
   }, [id, loadProject]);
 
   function handleSubmit() {
-    project.id ? updateProject(project) : createProject(project);
+    if (project.id.length === 0) {
+      let newProject = { ...project, id: uuid() };
+      createProject(newProject).then(() =>
+        history.push(`/projects/${newProject.id}`)
+      );
+    } else {
+      updateProject(project).then(() =>
+        history.push(`/projects/${project.id}`)
+      );
+    }
   }
 
   // React makes the inputs readonly by default because it cannot track changes when 'Value' attribute is added. hence onchange needs to be handled seperatley.
@@ -71,7 +83,13 @@ const ProjectForm = () => {
           type="submit"
           content="Submit"
         />
-        <Button floated="right" type="button" content="Cancel" />
+        <Button
+          as={Link}
+          to="/projects"
+          floated="right"
+          type="button"
+          content="Cancel"
+        />
       </Form>
     </Segment>
   );

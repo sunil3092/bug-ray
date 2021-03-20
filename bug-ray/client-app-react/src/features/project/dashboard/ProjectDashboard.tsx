@@ -7,10 +7,13 @@ import ProjectList from "./ProjectList";
 
 const ProjectDashboard = () => {
   const { projectStore } = useStore();
+  const { loadProjects, projectRegistry } = projectStore;
 
   useEffect(() => {
-    projectStore.loadProjects();
-  }, [projectStore]);
+    if (projectRegistry.size <= 1) {
+      loadProjects();
+    }
+  }, [loadProjects, projectRegistry]);
 
   if (projectStore.lodaingInital)
     return <LodingComponet content="Loading app" />;

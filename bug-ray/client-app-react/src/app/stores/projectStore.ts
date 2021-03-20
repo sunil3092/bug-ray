@@ -1,7 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../../api/agent";
 import { Project } from "../models/project";
-import { v4 as uuid } from "uuid";
 
 export default class ProjectStore {
   projectRegistry = new Map<string, Project>();
@@ -73,7 +72,6 @@ export default class ProjectStore {
 
   createProject = async (project: Project) => {
     this.loading = true;
-    project.id = uuid();
     try {
       await agent.Projects.create(project);
       runInAction(() => {
