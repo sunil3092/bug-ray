@@ -1,62 +1,30 @@
 import { observer } from "mobx-react-lite";
-import React, { SyntheticEvent, useState } from "react";
-import { NavLink } from "react-router-dom";
-import { Card, Button, Image } from "semantic-ui-react";
+import { group } from "node:console";
+import React, { Fragment } from "react";
+import { Card, Header } from "semantic-ui-react";
 import { useStore } from "../../../app/stores/store";
+import ProjectListItem from "./ProjectListItem";
 
 const ProjectList = () => {
   const { projectStore } = useStore();
 
-  const { projectsByDate: projects, deleteProject, loading } = projectStore;
-
-  const [target, setTarget] = useState("");
-
-  function handleProjectDelete(
-    e: SyntheticEvent<HTMLButtonElement>,
-    id: string
-  ) {
-    setTarget(e.currentTarget.name);
-    deleteProject(id);
-  }
+  const { groupByEstimate } = projectStore;
 
   return (
-    <Card.Group>
-      {projects.map((project) => (
-        <Card key={project.id}>
-          <Card.Content>
-            <Image
-              floated="right"
-              size="mini"
-              src="https://react.semantic-ui.com/images/avatar/large/steve.jpg"
-            />
-            <Card.Header>{project.name}</Card.Header>
-            <Card.Meta>Owner</Card.Meta>
-            <Card.Description>{project.description}</Card.Description>
-          </Card.Content>
-          <Card.Content extra>
-            <div className="ui two buttons">
-              <Button
-                basic
-                color="green"
-                as={NavLink}
-                to={`/projects/${project.id}`}
-              >
-                Select
-              </Button>
-              <Button
-                name={project.id}
-                basic
-                color="red"
-                onClick={(e) => handleProjectDelete(e, project.id)}
-                loading={loading && target === project.id}
-              >
-                Delete
-              </Button>
-            </div>
-          </Card.Content>
-        </Card>
+    <>
+      {groupByEstimate.map(([group, projects]) => (
+        <Fragment key={group}>
+          <Header sub color="purple">
+            {group}
+          </Header>
+          <Card.Group>
+            {projects.map((project) => (
+              <ProjectListItem key={project.id} project={project} />
+            ))}
+          </Card.Group>
+        </Fragment>
       ))}
-    </Card.Group>
+    </>
   );
 };
 

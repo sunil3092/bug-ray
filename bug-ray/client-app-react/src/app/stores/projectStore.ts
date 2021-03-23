@@ -19,6 +19,19 @@ export default class ProjectStore {
     );
   }
 
+  //Study Again
+  get groupByEstimate() {
+    return Object.entries(
+      this.projectsByDate.reduce((projects, project) => {
+        const date = project.estimate;
+        projects[date] = projects[date]
+          ? [...projects[date], project]
+          : [project];
+        return projects;
+      }, {} as { [key: string]: Project[] })
+    );
+  }
+
   loadProjects = async () => {
     try {
       const projects = await agent.Projects.list();
