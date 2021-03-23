@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { Grid } from "semantic-ui-react";
 import LodingComponet from "../../../app/layout/LodingComponet";
 import { useStore } from "../../../app/stores/store";
+import ProjectFilters from "./ProjectFilters";
 import ProjectList from "./ProjectList";
 
 const ProjectDashboard = () => {
@@ -24,7 +25,7 @@ const ProjectDashboard = () => {
         <ProjectList />
       </Grid.Column>
       <Grid.Column width="6">
-        <h1>Filters</h1>
+        <ProjectFilters />
       </Grid.Column>
     </Grid>
   );
