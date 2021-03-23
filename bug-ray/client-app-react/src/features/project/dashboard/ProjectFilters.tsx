@@ -6,7 +6,12 @@ const ProjectFilters = () => {
   return (
     <>
       <Menu vertical size="large" style={{ width: "100%", marginTop: 20 }}>
-        <Header icon="filter" attached color="purple" content="Filters" />
+        <Header
+          icon="filter"
+          attached
+          style={{ color: "#0d324d" }}
+          content="Filters"
+        />
         <Menu.Item content="All" />
         <Menu.Item content="Owner" />
         <Menu.Item content="Contributing" />

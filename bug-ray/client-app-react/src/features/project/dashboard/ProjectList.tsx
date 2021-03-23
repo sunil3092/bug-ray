@@ -13,7 +13,7 @@ const ProjectList = () => {
     <>
       {groupByEstimate.map(([group, projects]) => (
         <Fragment key={group}>
-          <Header sub color="purple">
+          <Header sub style={{ color: "#0d324d" }}>
             {group}
           </Header>
           <Card.Group>

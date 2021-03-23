@@ -8,8 +8,8 @@ const ProjectComments = () => {
         textAlign="center"
         attached="top"
         inverted
-        color="purple"
-        style={{ border: "none" }}
+        secondary
+        style={{ border: "none", backgroundColor: "#0d324d" }}
       >
         <Header>Comments</Header>
       </Segment>

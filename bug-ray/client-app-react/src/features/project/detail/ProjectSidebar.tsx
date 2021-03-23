@@ -7,11 +7,10 @@ const ProjectSidebar = () => {
     <Fragment>
       <Segment
         textAlign="center"
-        style={{ border: "none" }}
         attached="top"
         secondary
         inverted
-        color="purple"
+        style={{ border: "none", backgroundColor: "#0d324d" }}
       >
         Members
       </Segment>

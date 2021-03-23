@@ -1,20 +1,31 @@
 import React from "react";
-import { Segment } from "semantic-ui-react";
+import { Header, Segment } from "semantic-ui-react";
 import EffortListItem from "./EffortListItem";
 
 const EffortList = () => {
   return (
-    <Segment>
-      <Segment>
-        <EffortListItem />
+    <>
+      <Segment
+        textAlign="center"
+        attached="top"
+        inverted
+        secondary
+        style={{ border: "none", backgroundColor: "#0d324d" }}
+      >
+        <Header>Efforts</Header>
       </Segment>
-      <Segment>
-        <EffortListItem />
+      <Segment attached>
+        <Segment>
+          <EffortListItem />
+        </Segment>
+        <Segment>
+          <EffortListItem />
+        </Segment>
+        <Segment>
+          <EffortListItem />
+        </Segment>
       </Segment>
-      <Segment>
-        <EffortListItem />
-      </Segment>
-    </Segment>
+    </>
   );
 };
 
