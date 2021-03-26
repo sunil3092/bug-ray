@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Core;
 using AutoMapper;
 using Domain;
 using FluentValidation;
@@ -10,7 +11,7 @@ namespace Application.ProjectBL
 {
     public class Edit
     {
-        public class Command : IRequest
+        public class Command : IRequest<Result<Unit>>
         {
             public Project Project { get; set; }
         }
@@ -25,7 +26,7 @@ namespace Application.ProjectBL
         }
 
 
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _dataContext;
             private readonly IMapper _mapper;
@@ -35,15 +36,18 @@ namespace Application.ProjectBL
                 _dataContext = dataContext;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var effort = await _dataContext.Projects.FindAsync(request.Project.Id);
+                var project = await _dataContext.Projects.FindAsync(request.Project.Id);
 
-                _mapper.Map(request.Project, effort);
+                if (project == null) return null;
 
-                await _dataContext.SaveChangesAsync();
+                _mapper.Map(request.Project, project);
 
-                return Unit.Value;
+                var result = await _dataContext.SaveChangesAsync() > 0;
+
+                if (!result) return Result<Unit>.Failure("Failed to edit the project");
+                return Result<Unit>.Success(Unit.Value);
             }
         }
     }

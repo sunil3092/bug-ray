@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.ProjectBL;
 using Domain;
@@ -24,7 +23,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProject(Project Project)
         {
-            return Ok(await Mediator.Send(new Create.Command { Project = Project }));
+            return HandleResult(await Mediator.Send(new Create.Command { Project = Project }));
         }
 
         [HttpPut("{id}")]
@@ -32,13 +31,13 @@ namespace API.Controllers
         {
             Project.Id = Id;
 
-            return Ok(await Mediator.Send(new Edit.Command { Project = Project }));
+            return HandleResult(await Mediator.Send(new Edit.Command { Project = Project }));
         }
 
         [HttpDelete("{Id}")]
         public async Task<IActionResult> DeleteProject(Guid Id)
         {
-            return Ok(await Mediator.Send(new Delete.Command { Id = Id }));
+            return HandleResult(await Mediator.Send(new Delete.Command { Id = Id }));
         }
     }
 }
