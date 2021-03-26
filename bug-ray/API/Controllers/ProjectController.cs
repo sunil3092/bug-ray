@@ -16,9 +16,9 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Project>> GetProject(Guid Id)
+        public async Task<IActionResult> GetProject(Guid Id)
         {
-            return await Mediator.Send(new Details.Query { Id = Id });
+            return HandleResult(await Mediator.Send(new Details.Query { Id = Id }));
         }
 
         [HttpPost]

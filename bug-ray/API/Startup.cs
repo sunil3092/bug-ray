@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using API.Extensions;
 using Application.Core;
 using Application.EffortBL;
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,7 +33,10 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers().AddFluentValidation(config =>
+            {
+                config.RegisterValidatorsFromAssemblyContaining<Application.ProjectBL.Create>();
+            });
 
             //Using Extension methods
             services.AddApplicationServices(_config);

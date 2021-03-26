@@ -2,6 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Domain;
+using FluentValidation;
 using MediatR;
 using Persistance;
 
@@ -13,6 +14,16 @@ namespace Application.ProjectBL
         {
             public Project Project { get; set; }
         }
+
+
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(x => x.Project).SetValidator(new ProjectValidator());
+            }
+        }
+
 
         public class Handler : IRequestHandler<Command>
         {
