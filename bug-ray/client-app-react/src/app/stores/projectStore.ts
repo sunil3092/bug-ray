@@ -7,7 +7,7 @@ export default class ProjectStore {
   selectedProject: Project | undefined = undefined;
   editMode = false;
   loading = false;
-  lodaingInital = true;
+  lodaingInital = false;
 
   constructor() {
     makeAutoObservable(this);
