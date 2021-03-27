@@ -8,6 +8,7 @@ import { useStore } from "../../../app/stores/store";
 import EffortList from "../effort/EffortList";
 import ProjectComments from "./ProjectComments";
 import ProjectSidebar from "./ProjectSidebar";
+import { format } from "date-fns";
 
 const ProjectDetail = () => {
   const { projectStore } = useStore();
@@ -41,7 +42,7 @@ const ProjectDetail = () => {
             <Card.Header>{project.name}</Card.Header>
             <Card.Meta>
               <span className="date">
-                Estimate of the Project {project.estimate}
+                Active Since {format(project.estimate!, "dd MMM yyyy")}
               </span>
             </Card.Meta>
             <Card.Description>{project.description}</Card.Description>

@@ -12,7 +12,7 @@ const ProjectSidebar = () => {
         inverted
         style={{ border: "none", backgroundColor: "#0d324d" }}
       >
-        Members
+        Team
       </Segment>
       <Segment attached>
         <List relaxed divided>

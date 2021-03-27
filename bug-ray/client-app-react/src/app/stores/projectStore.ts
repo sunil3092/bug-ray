@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../../api/agent";
 import { Project } from "../models/project";
+import { format } from "date-fns";
 
 export default class ProjectStore {
   projectRegistry = new Map<string, Project>();
@@ -15,7 +16,7 @@ export default class ProjectStore {
 
   get projectsByDate() {
     return Array.from(this.projectRegistry.values()).sort(
-      (a, b) => Date.parse(a.estimate) - Date.parse(b.estimate)
+      (a, b) => a.estimate!.getTime() - b.estimate!.getTime()
     );
   }
 
@@ -23,7 +24,7 @@ export default class ProjectStore {
   get groupByEstimate() {
     return Object.entries(
       this.projectsByDate.reduce((projects, project) => {
-        const date = project.estimate;
+        const date = format(project.estimate!, "dd MMM yyyy");
         projects[date] = projects[date]
           ? [...projects[date], project]
           : [project];
@@ -70,7 +71,7 @@ export default class ProjectStore {
 
   //Helper Method
   private setProject = (project: Project) => {
-    project.estimate = project.estimate.split("T")[0];
+    project.estimate = new Date(project.estimate!);
     this.projectRegistry.set(project.id, project);
   };
 

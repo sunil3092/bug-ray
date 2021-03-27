@@ -1,19 +1,17 @@
 import { observer } from "mobx-react-lite";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
-import { Button, FormField, Label, Segment } from "semantic-ui-react";
+import { Button, Header, Segment } from "semantic-ui-react";
 import LodingComponet from "../../../app/layout/LodingComponet";
 import { useStore } from "../../../app/stores/store";
 import { v4 as uuid } from "uuid";
 import { Link } from "react-router-dom";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import { values } from "mobx";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import MyTextInput from "../../../app/common/form/MyTextInput";
 import MyTextArea from "../../../app/common/form/MyTextArea";
-import MySelectInput from "../../../app/common/form/MySelectInput";
-import { categoryOptions } from "../../../app/common/options/catagoryOptions";
 import MyDateInput from "../../../app/common/form/MyDateInput";
+import { Project } from "../../../app/models/project";
 
 const ProjectForm = () => {
   const history = useHistory();
@@ -27,17 +25,17 @@ const ProjectForm = () => {
   } = projectStore;
 
   const { id } = useParams<{ id: string }>();
-  const [project, setProject] = useState({
+  const [project, setProject] = useState<Project>({
     id: "",
     name: "",
     description: "",
-    estimate: "",
+    estimate: null,
     isFavourate: false,
   });
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Project name is required"),
-    estimate: Yup.string().required("Project estimate is required"),
+    estimate: Yup.string().required("Project estimate is required").nullable(),
     description: Yup.string().required("Project description is required"),
   });
 
@@ -45,38 +43,31 @@ const ProjectForm = () => {
     if (id) loadProject(id).then((project) => setProject(project!));
   }, [id, loadProject]);
 
-  // function handleSubmit() {
-  //   if (project.id.length === 0) {
-  //     let newProject = { ...project, id: uuid() };
-  //     createProject(newProject).then(() =>
-  //       history.push(`/projects/${newProject.id}`)
-  //     );
-  //   } else {
-  //     updateProject(project).then(() =>
-  //       history.push(`/projects/${project.id}`)
-  //     );
-  //   }
-  // }
-
-  // // React makes the inputs readonly by default because it cannot track changes when 'Value' attribute is added. hence onchange needs to be handled seperatley.
-  // function handleInputChange(
-  //   event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  // ) {
-  //   const { name, value } = event.target;
-  //   setProject({ ...project, [name]: value });
-  // }
+  function handleFormSubmit(project: Project) {
+    if (project.id.length === 0) {
+      let newProject = { ...project, id: uuid() };
+      createProject(newProject).then(() =>
+        history.push(`/projects/${newProject.id}`)
+      );
+    } else {
+      updateProject(project).then(() =>
+        history.push(`/projects/${project.id}`)
+      );
+    }
+  }
 
   if (lodaingInital && id) return <LodingComponet content="Loading Project" />;
 
   return (
     <Segment clearing>
+      <Header content="Project Details" sub style={{ color: "#0d324d" }} />
       <Formik
         validationSchema={validationSchema}
         enableReinitialize
         initialValues={project}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={(values) => handleFormSubmit(values)}
       >
-        {({ handleSubmit }) => (
+        {({ handleSubmit, isValid, dirty, isSubmitting }) => (
           <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
             <MyTextInput placeholder="Name" name="name" />
             <MyTextArea rows={3} placeholder="description" name="description" />
@@ -94,6 +85,7 @@ const ProjectForm = () => {
               positive
               type="submit"
               content="Submit"
+              disabled={isSubmitting || !isValid || !dirty}
             />
             <Button
               as={Link}
