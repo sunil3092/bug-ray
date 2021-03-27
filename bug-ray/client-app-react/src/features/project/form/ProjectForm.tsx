@@ -9,6 +9,11 @@ import { Link } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { values } from "mobx";
 import * as Yup from "yup";
+import MyTextInput from "../../../app/common/form/MyTextInput";
+import MyTextArea from "../../../app/common/form/MyTextArea";
+import MySelectInput from "../../../app/common/form/MySelectInput";
+import { categoryOptions } from "../../../app/common/options/catagoryOptions";
+import MyDateInput from "../../../app/common/form/MyDateInput";
 
 const ProjectForm = () => {
   const history = useHistory();
@@ -32,6 +37,8 @@ const ProjectForm = () => {
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Project name is required"),
+    estimate: Yup.string().required("Project estimate is required"),
+    description: Yup.string().required("Project description is required"),
   });
 
   useEffect(() => {
@@ -71,15 +78,16 @@ const ProjectForm = () => {
       >
         {({ handleSubmit }) => (
           <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
-            <FormField>
-              <Field placeholder="Name" name="name" />
-              <ErrorMessage
-                name="name"
-                render={(error) => <Label basic color="red" content={error} />}
-              />
-            </FormField>
-            <Field placeholder="description" name="description" />
-            <Field type="date" name="estimate" placeholder="Estimate" />
+            <MyTextInput placeholder="Name" name="name" />
+            <MyTextArea rows={3} placeholder="description" name="description" />
+            <MyDateInput
+              name="estimate"
+              placeholderText="Estimate"
+              showTimeSelect
+              timeCaption="time"
+              dateFormat="MMMM d, yyyy h:mm aa"
+            />
+            {/* <MySelectInput options={categoryOptions} name="category" placeholder="Category" /> */}
             <Button
               loading={loading}
               floated="right"
