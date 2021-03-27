@@ -10,6 +10,7 @@ import ProjectDetail from "../../features/project/detail/ProjectDetail";
 import TestError from "../../features/errors/TestError";
 import { ToastContainer } from "react-toastify";
 import NotFound from "../../features/errors/NotFound";
+import ServerError from "../../features/errors/ServerError";
 
 function App() {
   //To Reset the form key is passed, when the key chnages the form resets in that way we maintain edit and create form.
@@ -35,6 +36,7 @@ function App() {
                   component={ProjectForm}
                 />
                 <Route path="/errors" component={TestError} />
+                <Route path="/server-error" component={ServerError} />
                 <Route component={NotFound} />
               </Switch>
             </Container>
