@@ -14,6 +14,7 @@ const Navbar = () => {
         exact
       />
       <Menu.Item name="Projects" as={NavLink} to="/projects" />
+      <Menu.Item name="Errors" as={NavLink} to="/errors" />
       <Menu.Item>
         <Button
           positive

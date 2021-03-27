@@ -7,6 +7,8 @@ import { Route, Switch, useLocation } from "react-router";
 import HomePage from "../../features/home/HomePage";
 import ProjectForm from "../../features/project/form/ProjectForm";
 import ProjectDetail from "../../features/project/detail/ProjectDetail";
+import TestError from "../../features/errors/TestError";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   //To Reset the form key is passed, when the key chnages the form resets in that way we maintain edit and create form.
@@ -15,6 +17,7 @@ function App() {
 
   return (
     <>
+      <ToastContainer position="bottom-right" hideProgressBar />
       <Route exact path="/" component={HomePage} />
       <Route
         path={"/(.+)"}
@@ -30,6 +33,7 @@ function App() {
                   path={["/createProject", "/manage/:id"]}
                   component={ProjectForm}
                 />
+                <Route path="/errors" component={TestError} />
               </Switch>
             </Container>
           </>
