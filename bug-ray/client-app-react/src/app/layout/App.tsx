@@ -14,6 +14,7 @@ import ServerError from "../../features/errors/ServerError";
 import LoginForm from "../../features/users/LoginForm";
 import { useStore } from "../stores/store";
 import LodingComponet from "./LodingComponet";
+import ModalContainer from "../common/modals/ModalContainer";
 
 function App() {
   //To Reset the form key is passed, when the key chnages the form resets in that way we maintain edit and create form.
@@ -34,6 +35,7 @@ function App() {
   return (
     <>
       <ToastContainer position="bottom-right" hideProgressBar />
+      <ModalContainer />
       <Route exact path="/" component={HomePage} />
       <Route
         path={"/(.+)"}

@@ -3,9 +3,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Container, Segment, Button } from "semantic-ui-react";
 import { useStore } from "../../app/stores/store";
+import LoginForm from "../users/LoginForm";
+import RegisterForm from "../users/RegisterForm";
 
 const HomePage = () => {
-  const { userStore } = useStore();
+  const { userStore, modalStore } = useStore();
 
   return (
     <Segment inverted textAlign="center" vertical className="masthead">
@@ -21,15 +23,24 @@ const HomePage = () => {
             className="whiteGlow"
           />
         ) : (
-          <Button
-            as={Link}
-            to="/login"
-            size="massive"
-            inverted
-            circular
-            icon="user"
-            className="whiteGlow"
-          />
+          <>
+            <Button
+              onClick={() => modalStore.openModal(<LoginForm />)}
+              size="massive"
+              inverted
+              circular
+              icon="sign in alternate"
+              className="whiteGlow"
+            />
+            <Button
+              onClick={() => modalStore.openModal(<RegisterForm />)}
+              size="massive"
+              inverted
+              circular
+              icon="pencil alternate"
+              className="whiteGlow"
+            />
+          </>
         )}
       </Container>
     </Segment>
