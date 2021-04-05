@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { Link } from "react-router-dom";
-import { Container, Segment, Button, Header } from "semantic-ui-react";
+import { Container, Segment, Button } from "semantic-ui-react";
 import { useStore } from "../../app/stores/store";
 
 const HomePage = () => {
