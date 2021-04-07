@@ -10,5 +10,6 @@ namespace Domain
         public Project Project { get; set; }
         public bool IsOwner { get; set; }
         public bool IsCurrent { get; set; }
+        public bool IsContributing { get; set; }
     }
 }
