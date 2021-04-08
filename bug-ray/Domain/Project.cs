@@ -10,7 +10,7 @@ namespace Domain
         public string Description { get; set; }
         public DateTime Estimate { get; set; }
         public bool IsFavourate { get; set; }
-
+        public bool IsCancelled { get; set; }
         public ICollection<ProjectContributor> Contributors { get; set; } = new List<ProjectContributor>();
 
 

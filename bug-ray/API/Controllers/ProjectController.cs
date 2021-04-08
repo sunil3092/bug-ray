@@ -39,5 +39,12 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new Delete.Command { Id = Id }));
         }
+
+        [HttpPost("{id}/contribute")]
+        public async Task<IActionResult> Contribute(Guid id)
+        {
+            return HandleResult(await Mediator.Send(new UpdateContribution.Command { Id = id }));
+        }
+
     }
 }

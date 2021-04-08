@@ -12,7 +12,7 @@ namespace Application.ProjectBL
         public DateTime Estimate { get; set; }
         public bool IsFavourate { get; set; }
         public string HostUsername { get; set; }
-
+        public bool IsCancelled { get; set; }
         public ICollection<Profile> Contributors { get; set; }
 
     }
