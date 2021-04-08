@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Application.ProjectBL;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -26,6 +27,7 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Create.Command { Project = Project }));
         }
 
+        [Authorize(Policy = "IsOwnerRequirement")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProject(Guid Id, Project Project)
         {
@@ -34,6 +36,7 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Edit.Command { Project = Project }));
         }
 
+        [Authorize(Policy = "IsOwnerRequirement")]
         [HttpDelete("{Id}")]
         public async Task<IActionResult> DeleteProject(Guid Id)
         {

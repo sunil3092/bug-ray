@@ -10,7 +10,7 @@ namespace Application.Core
         public MappingProfiles()
         {
             CreateMap<Effort, Effort>();
-
+            CreateMap<Project, Project>();
             CreateMap<Project, ProjectDto>()
             .ForMember(d => d.HostUsername, o => o.MapFrom(s => s.Contributors.FirstOrDefault(x => x.IsOwner).AppUser.UserName));
 
