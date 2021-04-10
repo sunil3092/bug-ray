@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { Fragment } from "react";
-import { Card, Header } from "semantic-ui-react";
+import { Item, Label } from "semantic-ui-react";
 import { useStore } from "../../../app/stores/store";
 import ProjectListItem from "./ProjectListItem";
 
@@ -13,14 +13,15 @@ const ProjectList = () => {
     <>
       {groupByEstimate.map(([group, projects]) => (
         <Fragment key={group}>
-          <Header sub style={{ color: "#0d324d" }}>
+          <Label size="large" color="blue">
+            {/* {format(group, 'eeee do MMMM')} */}
             {group}
-          </Header>
-          <Card.Group>
+          </Label>
+          <Item.Group divided>
             {projects.map((project) => (
               <ProjectListItem key={project.id} project={project} />
             ))}
-          </Card.Group>
+          </Item.Group>
         </Fragment>
       ))}
     </>
