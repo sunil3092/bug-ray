@@ -2,15 +2,7 @@ import { observer } from "mobx-react-lite";
 import React, { SyntheticEvent } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  Card,
-  Button,
-  Image,
-  Icon,
-  Item,
-  Label,
-  Segment,
-} from "semantic-ui-react";
+import { Button, Item, Segment } from "semantic-ui-react";
 import { Project } from "../../../app/models/project";
 import { useStore } from "../../../app/stores/store";
 import ProjectContributorsList from "./ProjectContributorsList";
