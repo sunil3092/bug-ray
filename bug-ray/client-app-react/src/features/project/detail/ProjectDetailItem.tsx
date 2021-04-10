@@ -13,7 +13,12 @@ const ProjectDetailItem = ({ project }: Props) => {
   return (
     <Card fluid>
       <Card.Content>
-        <Image circular floated="right" size="mini" src="/assets/user.png" />
+        <Image
+          circular
+          floated="right"
+          size="mini"
+          src={project.owner?.image || "/assets/user.png"}
+        />
         <Card.Header>{project.name}</Card.Header>
         <Card.Meta>
           <span className="date">
@@ -23,19 +28,34 @@ const ProjectDetailItem = ({ project }: Props) => {
         <Card.Description>{project.description}</Card.Description>
       </Card.Content>
       <Card.Content extra>
-        <ProjectSidebar />
+        <ProjectSidebar contributors={project.contributors!} />
       </Card.Content>
       <Card.Content extra>
-        <Button.Group widths="2">
+        {project.isOwner ? (
           <Button
             as={Link}
             to={`/manage/${project.id}`}
-            basic
+            floated="right"
             color="blue"
             content="Edit"
           />
-          <Button as={Link} to="/projects" basic color="red" content="Cancel" />
-        </Button.Group>
+        ) : project.isContributing ? (
+          <Button
+            as={Link}
+            to="/projects"
+            floated="right"
+            color="red"
+            content="Cancel"
+          />
+        ) : (
+          <Button
+            as={Link}
+            to="/projects"
+            floated="left"
+            color="orange"
+            content="Contribute"
+          />
+        )}
       </Card.Content>
     </Card>
   );

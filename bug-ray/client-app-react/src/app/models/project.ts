@@ -8,5 +8,8 @@ export interface Project {
   isFavourate: boolean;
   hostUsername?: string;
   isCancelled?: boolean;
+  isContributing?: boolean;
+  isOwner?: boolean;
+  owner?: Profile;
   contributors?: Profile[];
 }

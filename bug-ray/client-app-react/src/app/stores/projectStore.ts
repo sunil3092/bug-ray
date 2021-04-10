@@ -2,6 +2,7 @@ import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../../api/agent";
 import { Project } from "../models/project";
 import { format } from "date-fns";
+import { store } from "./store";
 
 export default class ProjectStore {
   projectRegistry = new Map<string, Project>();
@@ -74,6 +75,19 @@ export default class ProjectStore {
 
   //Helper Method
   private setProject = (project: Project) => {
+    const user = store.userStore.user;
+
+    //Flag the is Contributing by using current user username to see if the user is contributing.
+    if (user) {
+      project.isContributing = project.contributors!.some(
+        (p) => p.username == user.username
+      );
+      //Set if its the owner
+      project.isOwner = project.hostUsername === user.username;
+      project.owner = project.contributors?.find(
+        (x) => x.username === project.hostUsername
+      );
+    }
     project.estimate = new Date(project.estimate!);
     this.projectRegistry.set(project.id, project);
   };
