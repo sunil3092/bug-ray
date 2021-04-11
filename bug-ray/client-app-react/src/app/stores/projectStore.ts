@@ -1,8 +1,9 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../../api/agent";
-import { Project } from "../models/project";
+import { Project, ProjectFormValues } from "../models/project";
 import { format } from "date-fns";
 import { store } from "./store";
+import { Profile } from "../models/profile";
 
 export default class ProjectStore {
   projectRegistry = new Map<string, Project>();
@@ -80,7 +81,7 @@ export default class ProjectStore {
     //Flag the is Contributing by using current user username to see if the user is contributing.
     if (user) {
       project.isContributing = project.contributors!.some(
-        (p) => p.username == user.username
+        (p) => p.username === user.username
       );
       //Set if its the owner
       project.isOwner = project.hostUsername === user.username;
@@ -101,39 +102,35 @@ export default class ProjectStore {
     this.lodaingInital = state;
   };
 
-  createProject = async (project: Project) => {
-    this.loading = true;
+  createProject = async (project: ProjectFormValues) => {
+    const user = store.userStore.user;
+    const contributor = new Profile(user!);
     try {
       await agent.Projects.create(project);
+      const newProject = new Project(project);
+      newProject.hostUsername = user!.username;
+      newProject.contributors = [contributor];
+      this.setProject(newProject);
       runInAction(() => {
-        this.projectRegistry.set(project.id, project);
-        this.selectedProject = project;
-        this.editMode = false;
-        this.loading = false;
+        this.selectedProject = newProject;
       });
     } catch (error) {
       console.log(error);
-      runInAction(() => {
-        this.loading = false;
-      });
     }
   };
 
-  updateProject = async (project: Project) => {
-    this.loading = true;
+  updateProject = async (project: ProjectFormValues) => {
     try {
       await agent.Projects.update(project);
       runInAction(() => {
-        this.projectRegistry.set(project.id, project);
-        this.selectedProject = project;
-        this.editMode = false;
-        this.loading = false;
+        if (project.id) {
+          let updatedProject = { ...this.getProject(project.id), ...project };
+          this.projectRegistry.set(project.id, updatedProject as Project);
+          this.selectedProject = updatedProject as Project;
+        }
       });
     } catch (error) {
       console.log(error);
-      runInAction(() => {
-        this.loading = false;
-      });
     }
   };
 
@@ -147,6 +144,57 @@ export default class ProjectStore {
       });
     } catch (error) {
       console.log(error);
+      runInAction(() => {
+        this.loading = false;
+      });
+    }
+  };
+
+  updateContribution = async () => {
+    const user = store.userStore.user;
+    this.loading = true;
+    try {
+      await agent.Projects.contribute(this.selectedProject!.id);
+      runInAction(() => {
+        if (this.selectedProject?.isContributing) {
+          this.selectedProject.contributors = this.selectedProject.contributors?.filter(
+            (a) => a.username !== user?.username
+          );
+          this.selectedProject.isContributing = false;
+        } else {
+          const contributor = new Profile(user!);
+          this.selectedProject?.contributors?.push(contributor);
+          this.selectedProject!.isContributing = true;
+        }
+
+        this.projectRegistry.set(
+          this.selectedProject!.id,
+          this.selectedProject!
+        );
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      runInAction(() => {
+        this.loading = false;
+      });
+    }
+  };
+
+  cancelProjectToggle = async () => {
+    this.loading = true;
+    try {
+      await agent.Projects.contribute(this.selectedProject!.id);
+      runInAction(() => {
+        this.selectedProject!.isCancelled = !this.selectedProject?.isCancelled;
+        this.projectRegistry.set(
+          this.selectedProject!.id,
+          this.selectedProject!
+        );
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
       runInAction(() => {
         this.loading = false;
       });

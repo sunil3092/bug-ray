@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { history } from "..";
-import { Project } from "../app/models/project";
+import { Project, ProjectFormValues } from "../app/models/project";
 import { User, userFormValues } from "../app/models/user";
 import { store } from "../app/stores/store";
 
@@ -74,10 +74,13 @@ const requests = {
 const Projects = {
   list: () => requests.get<Project[]>("/project"),
   details: (id: string) => requests.get<Project>(`/project/${id}`),
-  create: (project: Project) => requests.post<void>("/project", project),
-  update: (project: Project) =>
+  create: (project: ProjectFormValues) =>
+    requests.post<void>("/project", project),
+  update: (project: ProjectFormValues) =>
     requests.put<void>(`/project/${project.id}`, project),
   delete: (id: string) => requests.del<void>(`/project/${id}`),
+  contribute: (id: string) =>
+    requests.post<void>(`/project/${id}/contribute`, {}),
 };
 
 const Account = {

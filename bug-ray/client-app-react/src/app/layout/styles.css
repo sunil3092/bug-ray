@@ -12,6 +12,11 @@ body {
   text-shadow: 0 0 6px #ffff;
 }
 
+.redGlow {
+  color: red;
+  text-shadow: 0 0 6px red;
+}
+
 .masthead {
   display: flex;
   align-items: center;

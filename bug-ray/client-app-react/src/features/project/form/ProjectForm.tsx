@@ -11,13 +11,12 @@ import * as Yup from "yup";
 import MyTextInput from "../../../app/common/form/MyTextInput";
 import MyTextArea from "../../../app/common/form/MyTextArea";
 import MyDateInput from "../../../app/common/form/MyDateInput";
-import { Project } from "../../../app/models/project";
+import { ProjectFormValues } from "../../../app/models/project";
 
 const ProjectForm = () => {
   const history = useHistory();
   const { projectStore } = useStore();
   const {
-    loading,
     createProject,
     updateProject,
     loadProject,
@@ -25,13 +24,9 @@ const ProjectForm = () => {
   } = projectStore;
 
   const { id } = useParams<{ id: string }>();
-  const [project, setProject] = useState<Project>({
-    id: "",
-    name: "",
-    description: "",
-    estimate: null,
-    isFavourate: false,
-  });
+  const [project, setProject] = useState<ProjectFormValues>(
+    new ProjectFormValues()
+  );
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Project name is required"),
@@ -40,11 +35,14 @@ const ProjectForm = () => {
   });
 
   useEffect(() => {
-    if (id) loadProject(id).then((project) => setProject(project!));
+    if (id)
+      loadProject(id).then((project) =>
+        setProject(new ProjectFormValues(project))
+      );
   }, [id, loadProject]);
 
-  function handleFormSubmit(project: Project) {
-    if (project.id.length === 0) {
+  function handleFormSubmit(project: ProjectFormValues) {
+    if (!project.id) {
       let newProject = { ...project, id: uuid() };
       createProject(newProject).then(() =>
         history.push(`/projects/${newProject.id}`)
@@ -80,7 +78,7 @@ const ProjectForm = () => {
             />
             {/* <MySelectInput options={categoryOptions} name="category" placeholder="Category" /> */}
             <Button
-              loading={loading}
+              loading={isSubmitting}
               floated="right"
               positive
               type="submit"

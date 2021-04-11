@@ -1,8 +1,10 @@
 import { format } from "date-fns";
+import { observer } from "mobx-react-lite";
 import React from "react";
 import { Link } from "react-router-dom";
-import { Card, Button, Image } from "semantic-ui-react";
+import { Card, Button, Image, Label } from "semantic-ui-react";
 import { Project } from "../../../app/models/project";
+import { useStore } from "../../../app/stores/store";
 import ProjectSidebar from "./ProjectSidebar";
 
 interface Props {
@@ -10,8 +12,12 @@ interface Props {
 }
 
 const ProjectDetailItem = ({ project }: Props) => {
+  const {
+    projectStore: { updateContribution, loading, cancelProjectToggle },
+  } = useStore();
+
   return (
-    <Card fluid>
+    <Card fluid className={project.isCancelled ? "redGlow" : ""}>
       <Card.Content>
         <Image
           circular
@@ -19,6 +25,15 @@ const ProjectDetailItem = ({ project }: Props) => {
           size="mini"
           src={project.owner?.image || "/assets/user.png"}
         />
+        {/* {project.isCancelled && (
+          <Label
+            attached="top"
+            style={{ position: "absolute", zIndex: 1000, left: -14 }}
+            ribbon
+            color="red"
+            content="Cancelled"
+          />
+        )} */}
         <Card.Header>{project.name}</Card.Header>
         <Card.Meta>
           <span className="date">
@@ -32,28 +47,42 @@ const ProjectDetailItem = ({ project }: Props) => {
       </Card.Content>
       <Card.Content extra>
         {project.isOwner ? (
-          <Button
-            as={Link}
-            to={`/manage/${project.id}`}
-            floated="right"
-            color="blue"
-            content="Edit"
-          />
+          <>
+            <Button
+              color={project.isCancelled ? "green" : "red"}
+              basic
+              floated="left"
+              content={
+                project.isCancelled ? "Re-Activate Project" : "Cancel Project"
+              }
+              onClick={cancelProjectToggle}
+              loading={loading}
+            />
+            <Button
+              as={Link}
+              to={`/manage/${project.id}`}
+              floated="right"
+              color="blue"
+              content="Edit"
+              disabled={project.isCancelled}
+            />
+          </>
         ) : project.isContributing ? (
           <Button
-            as={Link}
-            to="/projects"
             floated="right"
             color="red"
+            onClick={updateContribution}
+            loading={loading}
             content="Cancel"
           />
         ) : (
           <Button
-            as={Link}
-            to="/projects"
             floated="left"
             color="orange"
+            onClick={updateContribution}
+            loading={loading}
             content="Contribute"
+            disabled={project.isCancelled}
           />
         )}
       </Card.Content>
@@ -61,4 +90,4 @@ const ProjectDetailItem = ({ project }: Props) => {
   );
 };
 
-export default ProjectDetailItem;
+export default observer(ProjectDetailItem);
