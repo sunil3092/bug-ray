@@ -26,7 +26,7 @@ const ProjectListItem = ({ project }: props) => {
   // }
 
   return (
-    <Segment.Group>
+    <Segment.Group className={project.isCancelled ? "redGlow" : ""}>
       <Segment>
         {project.isCancelled && (
           <Label
