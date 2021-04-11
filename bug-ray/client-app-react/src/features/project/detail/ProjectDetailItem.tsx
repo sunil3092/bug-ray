@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { Link } from "react-router-dom";
-import { Card, Button, Image, Label } from "semantic-ui-react";
+import { Card, Button, Image } from "semantic-ui-react";
 import { Project } from "../../../app/models/project";
 import { useStore } from "../../../app/stores/store";
 import ProjectSidebar from "./ProjectSidebar";
