@@ -13,7 +13,7 @@ namespace Application.ProjectBL
         public bool IsFavourate { get; set; }
         public string HostUsername { get; set; }
         public bool IsCancelled { get; set; }
-        public ICollection<Profile> Contributors { get; set; }
+        public ICollection<ContributorDto> Contributors { get; set; }
 
     }
 }
