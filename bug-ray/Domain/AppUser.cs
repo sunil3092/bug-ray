@@ -9,6 +9,7 @@ namespace Domain
         public string Bio { get; set; }
 
         public ICollection<ProjectContributor> Contributors { get; set; }
+        public ICollection<Photo> Photos { get; set; }
 
     }
 }

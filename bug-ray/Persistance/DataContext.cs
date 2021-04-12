@@ -13,6 +13,7 @@ namespace Persistance
         public DbSet<Effort> Efforts { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectContributor> ProjectContributors { get; set; }
+        public DbSet<Photo> Photos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
