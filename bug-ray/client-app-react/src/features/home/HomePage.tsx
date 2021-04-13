@@ -1,7 +1,14 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { Link } from "react-router-dom";
-import { Container, Segment, Button } from "semantic-ui-react";
+import {
+  Container,
+  Segment,
+  Button,
+  Image,
+  Header,
+  Grid,
+} from "semantic-ui-react";
 import { useStore } from "../../app/stores/store";
 import LoginForm from "../users/LoginForm";
 import RegisterForm from "../users/RegisterForm";
@@ -13,15 +20,35 @@ const HomePage = () => {
     <Segment inverted textAlign="center" vertical className="masthead">
       <Container text>
         {userStore.isLoggedIn ? (
-          <Button
-            as={Link}
-            to="/projects"
-            size="massive"
-            inverted
-            circular
-            icon="bug"
-            className="whiteGlow"
-          />
+          <Grid centered>
+            <Grid.Row>
+              <Image
+                circular
+                as={Link}
+                to="/projects"
+                size="small"
+                src={userStore.user?.image || "/assets/user.png"}
+                className="whiteBoxGlow"
+                bordered
+              />
+            </Grid.Row>
+            <Grid.Row>
+              <Header
+                as="h1"
+                inverted
+                content={"Welcome " + userStore.user?.displayName}
+              />
+            </Grid.Row>
+            <Grid.Row>
+              <Button
+                color="grey"
+                basic
+                inverted
+                content="Logout"
+                onClick={userStore.logout}
+              />
+            </Grid.Row>
+          </Grid>
         ) : (
           <>
             <Button

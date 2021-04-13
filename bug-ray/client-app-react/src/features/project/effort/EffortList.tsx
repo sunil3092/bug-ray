@@ -5,7 +5,7 @@ import EffortListItem from "./EffortListItem";
 const EffortList = () => {
   return (
     <Fragment>
-      <Card.Group>
+      <Card.Group itemsPerRow={5}>
         <EffortListItem />
         <EffortListItem />
       </Card.Group>
