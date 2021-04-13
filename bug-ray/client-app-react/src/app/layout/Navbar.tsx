@@ -1,7 +1,15 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
-import { Button, Menu, Image, Dropdown, Container } from "semantic-ui-react";
+import {
+  Button,
+  Menu,
+  Image,
+  Dropdown,
+  Container,
+  Icon,
+  Header,
+} from "semantic-ui-react";
 import { useStore } from "../stores/store";
 
 const Navbar = () => {
@@ -12,14 +20,16 @@ const Navbar = () => {
   return (
     <Menu inverted fixed="top" size="huge">
       <Container>
-        <Menu.Item icon="bug" className="whiteGlow" as={NavLink} to="/" exact />
         <Menu.Item
           name="Bug-Ray"
           as={NavLink}
           to="/"
           className="whiteGlow"
           exact
-        />
+        >
+          <Icon name="bug" />
+          Bug-Ray
+        </Menu.Item>
         <Menu.Item name="Projects" as={NavLink} to="/projects" />
         <Menu.Item name="Errors" as={NavLink} to="/errors" />
         <Menu.Item>
