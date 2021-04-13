@@ -21,12 +21,16 @@ const ProjectDashboard = () => {
 
   return (
     <Grid>
-      <Grid.Column width="10">
-        <ProjectList />
-      </Grid.Column>
-      <Grid.Column width="6">
-        <ProjectFilters />
-      </Grid.Column>
+      <Grid.Row>
+        <Grid.Column width="16">
+          <ProjectFilters />
+        </Grid.Column>
+      </Grid.Row>
+      <Grid.Row>
+        <Grid.Column width="16">
+          <ProjectList />
+        </Grid.Column>
+      </Grid.Row>
     </Grid>
   );
 };
