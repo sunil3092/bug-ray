@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { history } from "..";
+import { Profile } from "../app/models/profile";
 import { Project, ProjectFormValues } from "../app/models/project";
 import { User, userFormValues } from "../app/models/user";
 import { store } from "../app/stores/store";
@@ -90,9 +91,14 @@ const Account = {
     requests.post<User>("/account/register", user),
 };
 
+const Profiles = {
+  get: (username: string) => requests.get<Profile>(`/profiles/${username}`),
+};
+
 const agent = {
   Projects,
   Account,
+  Profiles,
 };
 
 export default agent;

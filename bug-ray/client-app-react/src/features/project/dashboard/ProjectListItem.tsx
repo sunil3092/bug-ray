@@ -38,11 +38,18 @@ const ProjectListItem = ({ project }: props) => {
         )}
         <Item.Group>
           <Item>
-            <Item.Image size="tiny" circular src="/assets/user.png" />
+            <Item.Image
+              size="tiny"
+              circular
+              src={project.owner?.image || "/assets/user.png"}
+            />
             <Item.Content>
               <Item.Header as="a">{project.name}</Item.Header>
               <Item.Description>
-                Owned by {project.hostUsername}
+                Owned by{" "}
+                <Link to={`/profile/${project.hostUsername}`}>
+                  {project.owner?.displayName}
+                </Link>
               </Item.Description>
             </Item.Content>
           </Item>

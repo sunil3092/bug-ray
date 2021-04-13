@@ -15,6 +15,7 @@ import LoginForm from "../../features/users/LoginForm";
 import { useStore } from "../stores/store";
 import LodingComponet from "./LodingComponet";
 import ModalContainer from "../common/modals/ModalContainer";
+import ProfilePage from "../../features/profiles/ProfilePage";
 
 function App() {
   //To Reset the form key is passed, when the key chnages the form resets in that way we maintain edit and create form.
@@ -51,6 +52,7 @@ function App() {
                   path={["/createProject", "/manage/:id"]}
                   component={ProjectForm}
                 />
+                <Route path="/profile/:username" component={ProfilePage} />
                 <Route path="/errors" component={TestError} />
                 <Route path="/server-error" component={ServerError} />
                 <Route path="/login" component={LoginForm} />
