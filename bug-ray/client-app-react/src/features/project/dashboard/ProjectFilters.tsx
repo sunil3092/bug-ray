@@ -1,29 +1,8 @@
 import React from "react";
 import Calendar from "react-calendar";
-import {
-  Dropdown,
-  Header,
-  Icon,
-  Menu,
-  Popup,
-  Segment,
-} from "semantic-ui-react";
+import { Dropdown, Icon, Menu } from "semantic-ui-react";
 
 const ProjectFilters = () => {
-  const filterOptions = [
-    { value: "all", content: "All", render: () => <Menu.Item content="All" /> },
-    {
-      value: "owner",
-      content: "Owner",
-      render: () => <Menu.Item content="Owner" />,
-    },
-    {
-      value: "contributing",
-      content: "Contributing",
-      render: () => <Menu.Item content="Contributing" />,
-    },
-  ];
-
   return (
     <>
       <Menu>

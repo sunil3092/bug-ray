@@ -8,7 +8,6 @@ import {
   Dropdown,
   Container,
   Icon,
-  Header,
 } from "semantic-ui-react";
 import { useStore } from "../stores/store";
 
