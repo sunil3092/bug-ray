@@ -17,6 +17,8 @@ interface Props {
 }
 
 const ProfileHeader = ({ profile }: Props) => {
+  // console.log(profile);
+
   return (
     <Segment>
       <Grid>

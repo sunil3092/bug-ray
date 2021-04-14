@@ -37,11 +37,11 @@ namespace Application.Photos
 
                 if (null == photo) return null;
 
-                var currentMain = user.Photos.FirstOrDefault(x => x.IsMaina);
+                var currentMain = user.Photos.FirstOrDefault(x => x.IsMain);
 
-                if (null != currentMain) currentMain.IsMaina = false;
+                if (null != currentMain) currentMain.IsMain = false;
 
-                photo.IsMaina = true;
+                photo.IsMain = true;
 
                 var result = await _context.SaveChangesAsync() > 0;
 
