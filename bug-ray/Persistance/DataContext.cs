@@ -14,6 +14,7 @@ namespace Persistance
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectContributor> ProjectContributors { get; set; }
         public DbSet<Photo> Photos { get; set; }
+        public DbSet<Discussions> Discussions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -29,6 +30,13 @@ namespace Persistance
             .HasOne(u => u.Project)
             .WithMany(p => p.Contributors)
             .HasForeignKey(pc => pc.ProjectId);
+
+            //Cascading Delete, configure the delete behaviour to delete Discussions on delete of project.
+            //As we are not giving the option to delete the project completly for now, we dont need to use this.
+            builder.Entity<Discussions>()
+            .HasOne(p => p.Project)
+            .WithMany(d => d.Discussions)
+            .OnDelete(DeleteBehavior.Cascade);
         }
 
     }

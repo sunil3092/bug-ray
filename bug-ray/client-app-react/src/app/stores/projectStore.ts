@@ -63,13 +63,10 @@ export default class ProjectStore {
           this.selectedProject = project;
         });
         this.setLoadingInital(false);
-        console.log(this.lodaingInital);
-
         return project;
       } catch (error) {
         console.log(error);
         this.setLoadingInital(false);
-        console.log(this.lodaingInital);
       }
     }
   };
