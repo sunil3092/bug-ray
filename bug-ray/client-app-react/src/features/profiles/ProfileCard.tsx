@@ -1,5 +1,4 @@
 import { observer } from "mobx-react-lite";
-import { truncate } from "node:fs";
 import React from "react";
 import { Link } from "react-router-dom";
 import { Card, Icon, Image } from "semantic-ui-react";
