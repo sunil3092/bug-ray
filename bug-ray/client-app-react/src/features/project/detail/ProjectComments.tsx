@@ -41,13 +41,15 @@ const ProjectComments = ({ projectId }: Props) => {
               >
                 {discussionStore.discssions.map((discussion) => (
                   <Segment
+                    key={discussion.id}
+                    tertiary={discussion.username === userStore.user?.username}
                     color={
                       discussion.username === userStore.user?.username
                         ? "green"
                         : undefined
                     }
                   >
-                    <Comment key={discussion.id}>
+                    <Comment>
                       <Comment.Avatar
                         as="a"
                         src={discussion.image || "/assets/user.png"}
