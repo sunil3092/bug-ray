@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Comment, Grid, Header, Loader, Segment } from "semantic-ui-react";
 import { useStore } from "../../../app/stores/store";
 import * as Yup from "yup";
+import { formatDistanceToNow } from "date-fns";
 
 interface Props {
   projectId: string;
@@ -53,9 +54,14 @@ const ProjectComments = ({ projectId }: Props) => {
                           {discussion.displayName}
                         </Comment.Author>
                         <Comment.Metadata>
-                          <div>{discussion.createdAt}</div>
+                          <div>
+                            {" "}
+                            {formatDistanceToNow(discussion.createdAt) + " ago"}
+                          </div>
                         </Comment.Metadata>
-                        <Comment.Text>{discussion.body}</Comment.Text>
+                        <Comment.Text style={{ whiteSpace: "pre-wrap" }}>
+                          {discussion.body}
+                        </Comment.Text>
                       </Comment.Content>
                     </Comment>
                   ))}

@@ -32,11 +32,19 @@ export default class DiscussionStore {
         );
 
       this.hubConnection.on("LoadDiscussions", (discussions: Discussion[]) => {
-        runInAction(() => (this.discssions = discussions));
+        runInAction(() => {
+          discussions.forEach((discussion) => {
+            discussion.createdAt = new Date(discussion.createdAt + "Z");
+          });
+          this.discssions = discussions;
+        });
       });
 
       this.hubConnection.on("ReceiveDiscussion", (discussion: Discussion) => {
-        runInAction(() => this.discssions.push(discussion));
+        runInAction(() => {
+          discussion.createdAt = new Date(discussion.createdAt);
+          this.discssions.push(discussion);
+        });
       });
     }
   };
