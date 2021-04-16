@@ -1,14 +1,28 @@
-import React from "react";
-import {
-  Button,
-  Comment,
-  Form,
-  Grid,
-  Header,
-  Segment,
-} from "semantic-ui-react";
+import { Formik, Form } from "formik";
+import { values } from "mobx";
+import { observer } from "mobx-react-lite";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Button, Comment, Grid, Header, Segment } from "semantic-ui-react";
+import MyTextArea from "../../../app/common/form/MyTextArea";
+import { useStore } from "../../../app/stores/store";
 
-const ProjectComments = () => {
+interface Props {
+  projectId: string;
+}
+
+const ProjectComments = ({ projectId }: Props) => {
+  const { discussionStore } = useStore();
+
+  useEffect(() => {
+    if (projectId) {
+      discussionStore.createHubConnection(projectId);
+    }
+    return () => {
+      discussionStore.clearDiscussion();
+    };
+  }, [discussionStore, projectId]);
+
   return (
     <Segment.Group>
       <Segment>
@@ -22,58 +36,52 @@ const ProjectComments = () => {
         <Grid>
           <Grid.Row>
             <Comment.Group style={{ margin: "auto" }}>
-              <Comment>
-                <Comment.Avatar
-                  as="a"
-                  src="https://react.semantic-ui.com/images/avatar/small/joe.jpg"
-                />
-                <Comment.Content>
-                  <Comment.Author>Joe Henderson</Comment.Author>
-                  <Comment.Metadata>
-                    <div>1 day ago</div>
-                  </Comment.Metadata>
-                  <Comment.Text>
-                    <p>
-                      The hours, minutes and seconds stand as visible reminders
-                      that your effort put them all there.
-                    </p>
-                    <p>
-                      Preserve until your next run, when the watch lets you see
-                      how Impermanent your efforts are.
-                    </p>
-                  </Comment.Text>
-                  <Comment.Actions>
-                    <Comment.Action>Reply</Comment.Action>
-                  </Comment.Actions>
-                </Comment.Content>
-              </Comment>
+              {discussionStore.discssions.map((discussion) => (
+                <Comment key={discussion.id}>
+                  <Comment.Avatar
+                    as="a"
+                    src={discussion.image || "/assets/user.png"}
+                  />
+                  <Comment.Content>
+                    <Comment.Author
+                      as={Link}
+                      to={`/profiles/${discussion.username}`}
+                    >
+                      {discussion.displayName}
+                    </Comment.Author>
+                    <Comment.Metadata>
+                      <div>{discussion.createdAt}</div>
+                    </Comment.Metadata>
+                    <Comment.Text>{discussion.body}</Comment.Text>
+                    <Comment.Actions>
+                      <Comment.Action>Reply</Comment.Action>
+                    </Comment.Actions>
+                  </Comment.Content>
+                </Comment>
+              ))}
 
-              <Comment>
-                <Comment.Avatar
-                  as="a"
-                  src="https://react.semantic-ui.com/images/avatar/small/christian.jpg"
-                />
-                <Comment.Content>
-                  <Comment.Author>Christian Rocha</Comment.Author>
-                  <Comment.Metadata>
-                    <div>2 days ago</div>
-                  </Comment.Metadata>
-                  <Comment.Text>I re-tweeted this.</Comment.Text>
-                  <Comment.Actions>
-                    <Comment.Action>Reply</Comment.Action>
-                  </Comment.Actions>
-                </Comment.Content>
-              </Comment>
-
-              <Form reply>
-                <Form.TextArea />
-                <Button
-                  content="Add Comment"
-                  labelPosition="left"
-                  icon="edit"
-                  primary
-                />
-              </Form>
+              <Formik
+                onSubmit={(values, { resetForm }) =>
+                  discussionStore.addDiscussion(values).then(() => resetForm())
+                }
+                initialValues={{ body: "" }}
+              >
+                {({ isSubmitting, isValid }) => (
+                  <Form className="ui form">
+                    <MyTextArea placeholder="Add" name="body" rows={2} />
+                    <Button
+                      loading={isSubmitting}
+                      disabled={isSubmitting || !isValid}
+                      content="Add Reply"
+                      labelPosition="left"
+                      icon="edit"
+                      primary
+                      type="submit"
+                      floated="right"
+                    />
+                  </Form>
+                )}
+              </Formik>
             </Comment.Group>
           </Grid.Row>
         </Grid>
@@ -82,4 +90,4 @@ const ProjectComments = () => {
   );
 };
 
-export default ProjectComments;
+export default observer(ProjectComments);

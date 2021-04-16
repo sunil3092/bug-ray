@@ -40,3 +40,8 @@ body {
 .react-datepicker-wrapper {
   width: 100%;
 }
+
+.marginAdjust {
+  margin: 0px !important;
+  align-content: center;
+}

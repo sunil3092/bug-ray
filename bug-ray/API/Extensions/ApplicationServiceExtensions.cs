@@ -30,9 +30,10 @@ namespace API.Extensions
 
             services.AddCors(opt =>
             {
+                //AllowCredentials is added because of Signal R as it sends creds via request connection 
                 opt.AddPolicy("CorsPolicy", policy =>
                 {
-                    policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
+                    policy.AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithOrigins("http://localhost:3000");
                 });
             });
 
