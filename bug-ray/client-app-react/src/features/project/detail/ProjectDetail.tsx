@@ -37,7 +37,7 @@ const ProjectDetail = () => {
       </Grid.Row>
 
       <Grid.Row>
-        <Grid.Column width="16">
+        <Grid.Column width="10">
           <ProjectComments projectId={project.id} />
         </Grid.Column>
       </Grid.Row>

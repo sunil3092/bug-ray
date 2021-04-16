@@ -12,7 +12,7 @@ interface Props {
 }
 
 const ProjectComments = ({ projectId }: Props) => {
-  const { discussionStore } = useStore();
+  const { discussionStore, userStore } = useStore();
 
   useEffect(() => {
     if (projectId) {
@@ -39,8 +39,14 @@ const ProjectComments = ({ projectId }: Props) => {
               <Comment.Group
                 style={{ margin: "10px", padding: "10px", width: "inherit" }}
               >
-                <Segment>
-                  {discussionStore.discssions.map((discussion) => (
+                {discussionStore.discssions.map((discussion) => (
+                  <Segment
+                    color={
+                      discussion.username === userStore.user?.username
+                        ? "green"
+                        : undefined
+                    }
+                  >
                     <Comment key={discussion.id}>
                       <Comment.Avatar
                         as="a"
@@ -64,8 +70,8 @@ const ProjectComments = ({ projectId }: Props) => {
                         </Comment.Text>
                       </Comment.Content>
                     </Comment>
-                  ))}
-                </Segment>
+                  </Segment>
+                ))}
 
                 <Formik
                   onSubmit={(values, { resetForm }) =>
