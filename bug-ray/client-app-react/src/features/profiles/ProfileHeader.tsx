@@ -45,33 +45,28 @@ const ProfileHeader = ({ profile }: Props) => {
         </Grid.Row>
         <Divider />
         <Grid.Row>
-          <Grid.Column width={16}>
+          <Grid.Column width={5}>
             <Statistic.Group widths={2}>
               <Statistic>
                 <Statistic.Value>1</Statistic.Value>
-                <Statistic.Label>Followers</Statistic.Label>
+                <Statistic.Label>Trackers</Statistic.Label>
               </Statistic>
               <Statistic>
                 <Statistic.Value>5</Statistic.Value>
-                <Statistic.Label>Following</Statistic.Label>
+                <Statistic.Label>Tracking</Statistic.Label>
               </Statistic>
-              {/* <Statistic>
-              <Statistic.Value>42</Statistic.Value>
-              <Statistic.Label>Teamsize/Contributors</Statistic.Label>
-            </Statistic> */}
             </Statistic.Group>
-
             <Divider />
             <Reveal animated="move">
               <Reveal.Content visible style={{ width: "100%" }}>
-                <Button fluid color="blue" content="Follow" />
+                <Button fluid color="blue" content="Track" />
               </Reveal.Content>
               <Reveal.Content hidden style={{ width: "100%" }}>
                 <Button
                   fluid
                   basic
                   color={true ? "red" : "green"}
-                  content="Unfollow"
+                  content="Untrack"
                 />
               </Reveal.Content>
             </Reveal>

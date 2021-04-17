@@ -14,12 +14,12 @@ const ProfileContent = ({ profile }: Props) => {
     { menuItem: "About", render: () => <ProfileAbout /> },
     { menuItem: "Photos", render: () => <ProfilePhoto profile={profile} /> },
     {
-      menuItem: "Followers",
-      render: () => <Tab.Pane>Followers Content</Tab.Pane>,
+      menuItem: "Trackers",
+      render: () => <Tab.Pane>Tracker Content</Tab.Pane>,
     },
     {
-      menuItem: "Following",
-      render: () => <Tab.Pane>Following Content</Tab.Pane>,
+      menuItem: "Tracking",
+      render: () => <Tab.Pane>Tracking Content</Tab.Pane>,
     },
   ];
 

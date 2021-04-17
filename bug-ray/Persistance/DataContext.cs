@@ -15,6 +15,9 @@ namespace Persistance
         public DbSet<ProjectContributor> ProjectContributors { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Discussions> Discussions { get; set; }
+        public DbSet<UserTracking> UserTrackings { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -37,6 +40,18 @@ namespace Persistance
             .HasOne(p => p.Project)
             .WithMany(d => d.Discussions)
             .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<UserTracking>(b =>
+            {
+                //Composite key
+                b.HasKey(k => new { k.ObserverId, k.TargetId });
+
+                //User is Tracking
+                b.HasOne(o => o.Observer).WithMany(t => t.Trackings).HasForeignKey(o => o.ObserverId).OnDelete(DeleteBehavior.Cascade);
+
+                //Others tracking user
+                b.HasOne(t => t.Target).WithMany(t => t.Trackers).HasForeignKey(o => o.TargetId).OnDelete(DeleteBehavior.Cascade);
+            });
         }
 
     }

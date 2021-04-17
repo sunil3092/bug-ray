@@ -11,5 +11,8 @@ namespace Domain
         public ICollection<ProjectContributor> Contributors { get; set; }
         public ICollection<Photo> Photos { get; set; }
 
+        public ICollection<UserTracking> Trackings { get; set; }
+        public ICollection<UserTracking> Trackers { get; set; }
+
     }
 }
