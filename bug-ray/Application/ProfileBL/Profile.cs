@@ -10,6 +10,9 @@ namespace Application.ProfileBL
         public string Bio { get; set; }
         public string Image { get; set; }
 
+        public bool Tracking { get; set; }
+        public int TrackingCount { get; set; }
+        public int TrackedCount { get; set; }
         public ICollection<Photo> Photos { get; set; }
     }
 }

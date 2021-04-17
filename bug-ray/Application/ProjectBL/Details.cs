@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
+using Application.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain;
@@ -23,15 +24,17 @@ namespace Application.ProjectBL
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
-            public Handler(DataContext context, IMapper mapper)
+            private readonly IUserAccessor _userAccessor;
+            public Handler(DataContext context, IMapper mapper, IUserAccessor userAccessor)
             {
+                _userAccessor = userAccessor;
                 _mapper = mapper;
                 _context = context;
             }
 
             public async Task<Result<ProjectDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var project = await _context.Projects.ProjectTo<ProjectDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(p => p.Id == request.Id);
+                var project = await _context.Projects.ProjectTo<ProjectDto>(_mapper.ConfigurationProvider, new { currentUserName = _userAccessor.GetUsername() }).FirstOrDefaultAsync(p => p.Id == request.Id);
 
                 return Result<ProjectDto>.Success(project);
             }

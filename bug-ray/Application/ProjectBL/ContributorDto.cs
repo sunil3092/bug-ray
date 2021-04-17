@@ -6,5 +6,8 @@ namespace Application.ProjectBL
         public string DisplayName { get; set; }
         public string Bio { get; set; }
         public string Image { get; set; }
+        public bool Tracking { get; set; }
+        public int TrackingCount { get; set; }
+        public int TrackedCount { get; set; }
     }
 }
