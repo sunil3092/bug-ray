@@ -197,4 +197,8 @@ export default class ProjectStore {
       });
     }
   };
+
+  clearSelectedProject = () => {
+    this.selectedProject = undefined;
+  };
 }

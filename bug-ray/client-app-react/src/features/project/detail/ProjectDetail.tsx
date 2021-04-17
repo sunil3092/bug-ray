@@ -10,7 +10,12 @@ import ProjectDetailItem from "./ProjectDetailItem";
 
 const ProjectDetail = () => {
   const { projectStore } = useStore();
-  const { selectedProject: project, loadProject, lodaingInital } = projectStore;
+  const {
+    selectedProject: project,
+    loadProject,
+    lodaingInital,
+    clearSelectedProject,
+  } = projectStore;
 
   //Extracting value form URL (UsePrams is hook form React-Rocuter-Dom)
   const { id } = useParams<{ id: string }>();
@@ -18,7 +23,8 @@ const ProjectDetail = () => {
   //Use Extracted Id from URL to load the data on load of page
   useEffect(() => {
     if (id) loadProject(id);
-  }, [loadProject, id]);
+    return () => clearSelectedProject();
+  }, [loadProject, id, clearSelectedProject]);
 
   if (lodaingInital || !project) return <LodingComponet />;
 
