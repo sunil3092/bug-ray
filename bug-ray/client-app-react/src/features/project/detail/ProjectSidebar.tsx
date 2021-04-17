@@ -24,6 +24,7 @@ const ProjectSidebar = ({ contributors }: Props) => {
               to={`/profile/${contributor.username}`}
             >
               <Image
+                className={contributor.tracking ? "blueGlow" : ""}
                 size="mini"
                 circular
                 src={contributor.image || "/assets/user.png"}

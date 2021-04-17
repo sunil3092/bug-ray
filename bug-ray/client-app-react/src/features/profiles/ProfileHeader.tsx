@@ -48,11 +48,11 @@ const ProfileHeader = ({ profile }: Props) => {
           <Grid.Column width={5}>
             <Statistic.Group widths={2}>
               <Statistic>
-                <Statistic.Value>1</Statistic.Value>
+                <Statistic.Value>{profile.trackedCount}</Statistic.Value>
                 <Statistic.Label>Trackers</Statistic.Label>
               </Statistic>
               <Statistic>
-                <Statistic.Value>5</Statistic.Value>
+                <Statistic.Value>{profile.trackingCount}</Statistic.Value>
                 <Statistic.Label>Tracking</Statistic.Label>
               </Statistic>
             </Statistic.Group>

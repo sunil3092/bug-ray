@@ -5,6 +5,9 @@ export interface Profile {
   displayName: string;
   image?: string;
   bio?: string;
+  trackingCount: number;
+  trackedCount: number;
+  tracking: boolean;
   photos?: Photo[];
 }
 

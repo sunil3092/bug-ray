@@ -25,6 +25,7 @@ const ProjectContributorsList = ({ contributors }: Props) => {
             >
               <Image
                 size="mini"
+                className={contributor.tracking ? "blueGlow" : ""}
                 circular
                 src={contributor.image || "/assets/user.png"}
               />
