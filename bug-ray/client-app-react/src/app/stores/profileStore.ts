@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable, reaction, runInAction } from "mobx";
 import agent from "../../api/agent";
 import { Photo, Profile } from "../models/profile";
 import { store } from "./store";
@@ -10,10 +10,27 @@ export default class ProfileStore {
   loading = false;
   trackings: Profile[] = [];
   loadingTrackings: boolean = false;
+  activeTab: number = 0;
 
   constructor() {
     makeAutoObservable(this);
+
+    reaction(
+      () => this.activeTab,
+      (activeTab) => {
+        if (activeTab === 2 || activeTab === 3) {
+          const predicate = activeTab === 2 ? "trackers" : "trackings";
+          this.loadTrackings(predicate);
+        } else {
+          this.trackings = [];
+        }
+      }
+    );
   }
+
+  setActiveTab = (activeTab: any) => {
+    this.activeTab = activeTab;
+  };
 
   get isCurrentUser() {
     if (store.userStore.user && this.profile) {
