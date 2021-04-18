@@ -1,3 +1,4 @@
+import { observer } from "mobx-react-lite";
 import React, { SyntheticEvent } from "react";
 import { Button, Reveal } from "semantic-ui-react";
 import { Profile } from "../../app/models/profile";
@@ -26,15 +27,15 @@ const TrackButton = ({ profile }: Props) => {
         <Button
           fluid
           color="blue"
-          content={profile.tracking ? "Tracking" : "Not Tracking"}
+          content={profile.tracking ? "Not Tracking" : "Tracking"}
         />
       </Reveal.Content>
       <Reveal.Content hidden style={{ width: "100%" }}>
         <Button
           fluid
           basic
-          color={profile.tracking ? "red" : "green"}
-          content={profile.tracking ? "Untrack" : "Track"}
+          color={profile.tracking ? "green" : "red"}
+          content={profile.tracking ? "Track" : "Untrack"}
           loading={loading}
           onClick={(e) => handleTracking(e, profile.username)}
         />
@@ -43,4 +44,4 @@ const TrackButton = ({ profile }: Props) => {
   );
 };
 
-export default TrackButton;
+export default observer(TrackButton);
