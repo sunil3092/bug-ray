@@ -106,6 +106,8 @@ const Profiles = {
     requests.put(`/profiles`, profile),
   updateTracking: (username: string) =>
     requests.post(`/tracking/${username}`, {}),
+  listTrackings: (username: string, predicate: string) =>
+    requests.get<Profile[]>(`/tracking/${username}?predicate=${predicate}`),
 };
 
 const agent = {

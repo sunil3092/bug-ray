@@ -4,6 +4,7 @@ import { Tab } from "semantic-ui-react";
 import { Profile } from "../../app/models/profile";
 import ProfileAbout from "./ProfileAbout";
 import ProfilePhoto from "./ProfilePhoto";
+import ProfileTrackings from "./ProfileTrackings";
 
 interface Props {
   profile: Profile;
@@ -15,11 +16,11 @@ const ProfileContent = ({ profile }: Props) => {
     { menuItem: "Photos", render: () => <ProfilePhoto profile={profile} /> },
     {
       menuItem: "Trackers",
-      render: () => <Tab.Pane>Tracker Content</Tab.Pane>,
+      render: () => <ProfileTrackings />,
     },
     {
       menuItem: "Tracking",
-      render: () => <Tab.Pane>Tracking Content</Tab.Pane>,
+      render: () => <ProfileTrackings />,
     },
   ];
 

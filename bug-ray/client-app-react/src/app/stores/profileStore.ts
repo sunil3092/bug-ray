@@ -9,6 +9,7 @@ export default class ProfileStore {
   uploading = false;
   loading = false;
   trackings: Profile[] = [];
+  loadingTrackings: boolean = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -152,6 +153,25 @@ export default class ProfileStore {
       console.log(error);
       runInAction(() => {
         this.loading = false;
+      });
+    }
+  };
+
+  loadTrackings = async (predicate: string) => {
+    this.loadingTrackings = true;
+    try {
+      const trackings = await agent.Profiles.listTrackings(
+        this.profile!.username,
+        predicate
+      );
+      runInAction(() => {
+        this.trackings = trackings;
+        this.loadingTrackings = false;
+      });
+    } catch (error) {
+      console.log(error);
+      runInAction(() => {
+        this.loadingTrackings = false;
       });
     }
   };
