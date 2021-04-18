@@ -27,15 +27,15 @@ const TrackButton = ({ profile }: Props) => {
         <Button
           fluid
           color="blue"
-          content={profile.tracking ? "Not Tracking" : "Tracking"}
+          content={profile.tracking ? "Tracking" : "Not Tracking"}
         />
       </Reveal.Content>
       <Reveal.Content hidden style={{ width: "100%" }}>
         <Button
           fluid
           basic
-          color={profile.tracking ? "green" : "red"}
-          content={profile.tracking ? "Track" : "Untrack"}
+          color={profile.tracking ? "red" : "green"}
+          content={profile.tracking ? "Untrack" : "Track"}
           loading={loading}
           onClick={(e) => handleTracking(e, profile.username)}
         />
