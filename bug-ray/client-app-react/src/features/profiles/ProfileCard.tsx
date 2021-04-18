@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Card, Icon, Image } from "semantic-ui-react";
 import { Profile } from "../../app/models/profile";
+import TrackButton from "./TrackButton";
 
 interface Props {
   profile: Profile;
@@ -26,6 +27,7 @@ const ProfileCard = ({ profile }: Props) => {
         <Icon name="user" />
         {profile.trackedCount} Trackers
       </Card.Content>
+      <TrackButton profile={profile} />
     </Card>
   );
 };

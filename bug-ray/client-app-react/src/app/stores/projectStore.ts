@@ -201,4 +201,17 @@ export default class ProjectStore {
   clearSelectedProject = () => {
     this.selectedProject = undefined;
   };
+
+  updateContributorTracking = (username: string) => {
+    this.projectRegistry.forEach((project) => {
+      project.contributors.forEach((contributor) => {
+        if (contributor.username === username) {
+          contributor.tracking
+            ? contributor.trackingCount--
+            : contributor.trackingCount++;
+          contributor.tracking = !contributor.tracking;
+        }
+      });
+    });
+  };
 }

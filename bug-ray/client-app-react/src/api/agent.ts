@@ -104,6 +104,8 @@ const Profiles = {
   deletePhoto: (id: string) => requests.del(`/photos/${id}`),
   updateProfile: (profile: Partial<Profile>) =>
     requests.put(`/profiles`, profile),
+  updateTracking: (username: string) =>
+    requests.post(`/tracking/${username}`, {}),
 };
 
 const agent = {

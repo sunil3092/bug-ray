@@ -8,6 +8,7 @@ export default class ProfileStore {
   loadingProfile = false;
   uploading = false;
   loading = false;
+  trackings: Profile[] = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -116,6 +117,42 @@ export default class ProfileStore {
     } catch (error) {
       console.log(error);
       runInAction(() => (this.loading = false));
+    }
+  };
+
+  updateTracking = async (username: string, tracking: boolean) => {
+    this.loading = true;
+    try {
+      await agent.Profiles.updateTracking(username);
+      store.projectStore.updateContributorTracking(username);
+
+      runInAction(() => {
+        if (
+          this.profile &&
+          this.profile.username !== store.userStore.user?.username
+        ) {
+          tracking
+            ? this.profile.trackingCount++
+            : this.profile.trackingCount--;
+          this.profile.tracking = !this.profile.tracking;
+        }
+
+        this.trackings.forEach((profile) => {
+          if (profile.username === username) {
+            profile.tracking
+              ? profile.trackingCount--
+              : profile.trackingCount++;
+            profile.tracking = !profile.tracking;
+          }
+        });
+
+        this.loading = false;
+      });
+    } catch (error) {
+      console.log(error);
+      runInAction(() => {
+        this.loading = false;
+      });
     }
   };
 }
