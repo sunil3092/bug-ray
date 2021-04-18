@@ -147,12 +147,20 @@ export default class ProfileStore {
       runInAction(() => {
         if (
           this.profile &&
-          this.profile.username !== store.userStore.user?.username
+          this.profile.username !== store.userStore.user?.username &&
+          this.profile.username === username
         ) {
           tracking
             ? this.profile.trackingCount++
             : this.profile.trackingCount--;
           this.profile.tracking = !this.profile.tracking;
+        }
+
+        if (
+          this.profile &&
+          this.profile.username === store.userStore.user?.username
+        ) {
+          tracking ? this.profile.trackedCount++ : this.profile.trackedCount--;
         }
 
         this.trackings.forEach((profile) => {

@@ -6,7 +6,7 @@ import ProfileCard from "./ProfileCard";
 
 const ProfileTrackings = () => {
   const { profileStore } = useStore();
-  const { profile, trackings, loadingTrackings } = profileStore;
+  const { profile, trackings, loadingTrackings, activeTab } = profileStore;
 
   return (
     <Tab.Pane loading={loadingTrackings}>
@@ -15,7 +15,11 @@ const ProfileTrackings = () => {
           <Header
             floated="left"
             icon="user"
-            content={`Users Tracking ${profile?.displayName}`}
+            content={
+              activeTab === 2
+                ? `Users Tracking ${profile?.displayName}`
+                : `Users ${profile?.displayName} is Tracking `
+            }
           />
         </Grid.Column>
         <Grid.Column width={16}>

@@ -16,11 +16,11 @@ const ProfileContent = ({ profile }: Props) => {
     { menuItem: "About", render: () => <ProfileAbout /> },
     { menuItem: "Photos", render: () => <ProfilePhoto profile={profile} /> },
     {
-      menuItem: "User Tracks",
+      menuItem: "User Tracked By",
       render: () => <ProfileTrackings />,
     },
     {
-      menuItem: "User Tracked By",
+      menuItem: "User Tracks",
       render: () => <ProfileTrackings />,
     },
   ];
