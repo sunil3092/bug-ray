@@ -4,6 +4,7 @@ import { Project, ProjectFormValues } from "../models/project";
 import { format } from "date-fns";
 import { store } from "./store";
 import { Profile } from "../models/profile";
+import { Pagination } from "../models/pagination";
 
 export default class ProjectStore {
   projectRegistry = new Map<string, Project>();
@@ -11,6 +12,7 @@ export default class ProjectStore {
   editMode = false;
   loading = false;
   lodaingInital = false;
+  pagination: Pagination | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -37,16 +39,20 @@ export default class ProjectStore {
 
   loadProjects = async () => {
     try {
-      const projects = await agent.Projects.list();
-      projects.forEach((project) => {
+      const result = await agent.Projects.list();
+      result.data.forEach((project) => {
         this.setProject(project);
       });
-
+      this.setPagination(result.pagination);
       this.setLoadingInital(false);
     } catch (error) {
       console.log(error);
       this.setLoadingInital(false);
     }
+  };
+
+  setPagination = (pagination: Pagination) => {
+    this.pagination = pagination;
   };
 
   loadProject = async (id: string) => {

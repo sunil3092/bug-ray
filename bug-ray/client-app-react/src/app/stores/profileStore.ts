@@ -88,8 +88,6 @@ export default class ProfileStore {
           this.profile.photos.find((p) => p.isMain)!.isMain = false;
           this.profile.photos.find((p) => p.id === photo.id)!.isMain = true;
           this.profile.image = photo.url;
-          //Temp Wokaround
-          store.projectStore.loadProjects();
         }
         this.loading = false;
       });
@@ -129,7 +127,6 @@ export default class ProfileStore {
           store.userStore.setDisplayName(profile.displayName);
         }
         this.profile = { ...this.profile, ...(profile as Profile) };
-        store.projectStore.loadProjects();
         this.loading = false;
       });
     } catch (error) {
