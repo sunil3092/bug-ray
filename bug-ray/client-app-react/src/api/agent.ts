@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { history } from "..";
-import { PaginatedResult } from "../app/models/pagination";
+import { PaginatedResult, PaginationPrams } from "../app/models/pagination";
 import { Photo, Profile } from "../app/models/profile";
 import { Project, ProjectFormValues } from "../app/models/project";
 import { User, userFormValues } from "../app/models/user";
@@ -79,7 +79,10 @@ const requests = {
 };
 
 const Projects = {
-  list: () => requests.get<PaginatedResult<Project[]>>("/project"),
+  list: (params: URLSearchParams) =>
+    axios
+      .get<PaginatedResult<Project[]>>("/project", { params })
+      .then(responseBody),
   details: (id: string) => requests.get<Project>(`/project/${id}`),
   create: (project: ProjectFormValues) =>
     requests.post<void>("/project", project),
