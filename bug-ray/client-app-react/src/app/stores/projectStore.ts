@@ -50,6 +50,7 @@ export default class ProjectStore {
   }
 
   loadProjects = async () => {
+    this.setLoadingInital(true);
     try {
       const result = await agent.Projects.list(this.axiosParams);
       result.data.forEach((project) => {

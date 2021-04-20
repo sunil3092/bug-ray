@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React, { useEffect, useState } from "react";
-import { Button, Grid } from "semantic-ui-react";
+import InfiniteScroll from "react-infinite-scroller";
+import { Grid, Loader } from "semantic-ui-react";
 import LodingComponet from "../../../app/layout/LodingComponet";
 import { PaginationPrams } from "../../../app/models/pagination";
 import { useStore } from "../../../app/stores/store";
@@ -19,6 +20,7 @@ const ProjectDashboard = () => {
 
   function handleGetNext() {
     setLoadingNext(true);
+    console.log(loadingNext);
     setPagingParams(new PaginationPrams(pagination!.currentPage + 1));
     loadProjects().then(() => setLoadingNext(false));
   }
@@ -26,11 +28,12 @@ const ProjectDashboard = () => {
   useEffect(() => {
     if (projectRegistry.size <= 1) {
       loadProjects();
+      console.log(pagination);
     }
   }, [loadProjects, projectRegistry, setPagingParams]);
 
-  if (projectStore.lodaingInital)
-    return <LodingComponet content="Loading app" />;
+  if (projectStore.lodaingInital && !loadingNext)
+    return <LodingComponet content="Loading Projects" />;
 
   return (
     <Grid>
@@ -41,15 +44,21 @@ const ProjectDashboard = () => {
       </Grid.Row>
       <Grid.Row>
         <Grid.Column width="16">
-          <ProjectList />
-          <Button
-            floated="right"
-            content="More..."
-            positive
-            onClick={handleGetNext}
-            loading={loadingNext}
-            disabled={pagination?.totalPages === pagination?.currentPage}
-          />
+          <InfiniteScroll
+            pageStart={0}
+            loadMore={handleGetNext}
+            hasMore={
+              !loadingNext &&
+              !!pagination &&
+              pagination.currentPage < pagination.totalPages
+            }
+            initialLoad={false}
+          >
+            <ProjectList />
+          </InfiniteScroll>
+        </Grid.Column>
+        <Grid.Column width={16}>
+          <Loader active={loadingNext} />
         </Grid.Column>
       </Grid.Row>
     </Grid>
