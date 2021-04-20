@@ -30,10 +30,6 @@ export default class CommonStore {
   };
 
   setAppLoaded = () => {
-    // if (this.token) {
-    //   var jwt = this.parseJwt(this.token);
-    //   store.profileStore.loadProfile(jwt.unique_name);
-    // }
     this.appLoaded = true;
   };
 
