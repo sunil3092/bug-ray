@@ -33,7 +33,7 @@ const ProfileProjects = () => {
     <Tab.Pane loading={loadingProjects}>
       <Grid>
         <Grid.Column width={16}>
-          <Header floated="left" icon="calendar" content={"Activities"} />
+          <Header floated="left" icon="calendar" content={"Projects"} />
         </Grid.Column>
         <Grid.Column width={16}>
           <Tab
