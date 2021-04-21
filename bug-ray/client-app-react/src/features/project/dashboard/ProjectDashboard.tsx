@@ -2,7 +2,6 @@ import { observer } from "mobx-react-lite";
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { Grid, Loader } from "semantic-ui-react";
-import LodingComponet from "../../../app/layout/LodingComponet";
 import { PaginationPrams } from "../../../app/models/pagination";
 import { useStore } from "../../../app/stores/store";
 import ProjectFilters from "./ProjectFilters";

@@ -10,6 +10,7 @@ import App from "./app/layout/App";
 import reportWebVitals from "./reportWebVitals";
 import { store, StoreContext } from "./app/stores/store";
 import { createBrowserHistory } from "history";
+import ScrollToTop from "./app/layout/ScrollToTop";
 
 // To make history object avilable to store and other places in application
 export const history = createBrowserHistory();
@@ -19,6 +20,7 @@ ReactDOM.render(
     {/* Using "Router" insted of "BrowserRouter" would require history object to be passed manually to be available in react application,  */}
     {/* in this way history object is available thougout the application */}
     <Router history={history}>
+      <ScrollToTop />
       <App />
     </Router>
   </StoreContext.Provider>,
