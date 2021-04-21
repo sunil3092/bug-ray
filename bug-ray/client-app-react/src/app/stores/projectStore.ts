@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable, reaction, runInAction } from "mobx";
 import agent from "../../api/agent";
 import { Project, ProjectFormValues } from "../models/project";
 import { format } from "date-fns";
@@ -14,19 +14,64 @@ export default class ProjectStore {
   lodaingInital = false;
   pagination: Pagination | null = null;
   pagingParams = new PaginationPrams();
+  predicate = new Map().set("all", true);
 
   constructor() {
     makeAutoObservable(this);
+
+    reaction(
+      () => this.predicate.keys(),
+      () => {
+        this.pagingParams = new PaginationPrams();
+        this.projectRegistry.clear();
+        this.loadProjects();
+      }
+    );
   }
 
   setPagingParams = (pagingParams: PaginationPrams) => {
     this.pagingParams = pagingParams;
   };
 
+  setPredicate = (predicate: string, value: string | Date) => {
+    const resetPredicate = () =>
+      this.predicate.forEach((value, key) => {
+        //Remove this for Date freedom
+        //if (key !== "estimate")
+        this.predicate.delete(key);
+      });
+    switch (predicate) {
+      case "all":
+        resetPredicate();
+        this.predicate.set("all", true);
+        break;
+      case "isOwner":
+        resetPredicate();
+        this.predicate.set("isOwner", true);
+        break;
+      case "isContributing":
+        resetPredicate();
+        this.predicate.set("isContributing", true);
+        break;
+      case "estimate":
+        resetPredicate();
+        this.predicate.delete("estimate");
+        this.predicate.set("estimate", value);
+        break;
+    }
+  };
+
   get axiosParams() {
     const params = new URLSearchParams();
     params.append("pageNumber", this.pagingParams.pageNumber.toString());
     params.append("pageSize", this.pagingParams.pageSize.toString());
+    this.predicate.forEach((value, key) => {
+      if (key === "estimate") {
+        params.append(key, (value as Date).toISOString());
+      } else {
+        params.append(key, value);
+      }
+    });
     return params;
   }
 
