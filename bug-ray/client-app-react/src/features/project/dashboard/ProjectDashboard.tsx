@@ -7,6 +7,7 @@ import { PaginationPrams } from "../../../app/models/pagination";
 import { useStore } from "../../../app/stores/store";
 import ProjectFilters from "./ProjectFilters";
 import ProjectList from "./ProjectList";
+import ProjectListItemPlaceholder from "./ProjectListItemPlaceholder";
 
 const ProjectDashboard = () => {
   const { projectStore } = useStore();
@@ -30,9 +31,6 @@ const ProjectDashboard = () => {
     }
   }, [loadProjects, projectRegistry, setPagingParams]);
 
-  if (projectStore.lodaingInital && !loadingNext)
-    return <LodingComponet content="Loading Projects" />;
-
   return (
     <Grid>
       <Grid.Row>
@@ -42,18 +40,25 @@ const ProjectDashboard = () => {
       </Grid.Row>
       <Grid.Row>
         <Grid.Column width="16">
-          <InfiniteScroll
-            pageStart={0}
-            loadMore={handleGetNext}
-            hasMore={
-              !loadingNext &&
-              !!pagination &&
-              pagination.currentPage < pagination.totalPages
-            }
-            initialLoad={false}
-          >
-            <ProjectList />
-          </InfiniteScroll>
+          {projectStore.lodaingInital && !loadingNext ? (
+            <>
+              <ProjectListItemPlaceholder />
+              <ProjectListItemPlaceholder />
+            </>
+          ) : (
+            <InfiniteScroll
+              pageStart={0}
+              loadMore={handleGetNext}
+              hasMore={
+                !loadingNext &&
+                !!pagination &&
+                pagination.currentPage < pagination.totalPages
+              }
+              initialLoad={false}
+            >
+              <ProjectList />
+            </InfiniteScroll>
+          )}
         </Grid.Column>
         <Grid.Column width={16}>
           <Loader active={loadingNext} />
