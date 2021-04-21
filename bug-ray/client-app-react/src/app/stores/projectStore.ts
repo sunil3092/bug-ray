@@ -56,11 +56,15 @@ export default class ProjectStore {
       result.data.forEach((project) => {
         this.setProject(project);
       });
-      this.setPagination(result.pagination);
-      this.setLoadingInital(false);
+      runInAction(() => {
+        this.setPagination(result.pagination);
+        this.setLoadingInital(false);
+      });
     } catch (error) {
       console.log(error);
-      this.setLoadingInital(false);
+      runInAction(() => {
+        this.setLoadingInital(false);
+      });
     }
   };
 

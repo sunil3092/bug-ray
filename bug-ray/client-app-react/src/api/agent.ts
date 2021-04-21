@@ -31,7 +31,10 @@ axios.interceptors.response.use(
     await sleep(1000);
     const pagination = response.headers["pagination"];
     if (pagination) {
-      response.data = new PaginatedResult(response.data, pagination);
+      response.data = new PaginatedResult(
+        response.data,
+        JSON.parse(pagination)
+      );
       return response as AxiosResponse<PaginatedResult<any>>;
     }
     return response;

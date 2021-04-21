@@ -20,7 +20,6 @@ const ProjectDashboard = () => {
 
   function handleGetNext() {
     setLoadingNext(true);
-    console.log(loadingNext);
     setPagingParams(new PaginationPrams(pagination!.currentPage + 1));
     loadProjects().then(() => setLoadingNext(false));
   }
@@ -28,7 +27,6 @@ const ProjectDashboard = () => {
   useEffect(() => {
     if (projectRegistry.size <= 1) {
       loadProjects();
-      console.log(pagination);
     }
   }, [loadProjects, projectRegistry, setPagingParams]);
 
