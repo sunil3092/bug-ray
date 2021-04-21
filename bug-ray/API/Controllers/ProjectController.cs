@@ -11,7 +11,7 @@ namespace API.Controllers
     public class ProjectController : BaseApiController
     {
         [HttpGet]
-        public async Task<IActionResult> GetProjects([FromQuery] PagingParams param)
+        public async Task<IActionResult> GetProjects([FromQuery] ProjectParams param)
         {
             return HandlePagedResult(await Mediator.Send(new List.Query { Params = param }));
         }
