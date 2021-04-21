@@ -18,9 +18,12 @@ export default class DiscussionStore {
   createHubConnection = (projectId: string) => {
     if (store.projectStore.selectedProject) {
       this.hubConnection = new HubConnectionBuilder()
-        .withUrl("http://localhost:5000/discuss?projectId=" + projectId, {
-          accessTokenFactory: () => store.userStore.user?.token!,
-        })
+        .withUrl(
+          process.env.REACT_APP_DISCUSSION_URL + "?projectId=" + projectId,
+          {
+            accessTokenFactory: () => store.userStore.user?.token!,
+          }
+        )
         .withAutomaticReconnect()
         .configureLogging(LogLevel.Information)
         .build();
