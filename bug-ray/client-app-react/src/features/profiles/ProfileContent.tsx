@@ -5,6 +5,7 @@ import { Profile } from "../../app/models/profile";
 import { useStore } from "../../app/stores/store";
 import ProfileAbout from "./ProfileAbout";
 import ProfilePhoto from "./ProfilePhoto";
+import ProfileProjects from "./ProfileProjects";
 import ProfileTrackings from "./ProfileTrackings";
 
 interface Props {
@@ -15,6 +16,7 @@ const ProfileContent = ({ profile }: Props) => {
   const panes = [
     { menuItem: "About", render: () => <ProfileAbout /> },
     { menuItem: "Photos", render: () => <ProfilePhoto profile={profile} /> },
+    { menuItem: "Projects", render: () => <ProfileProjects /> },
     {
       menuItem: "User Tracked By",
       render: () => <ProfileTrackings />,

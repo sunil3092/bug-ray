@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { history } from "..";
 import { PaginatedResult } from "../app/models/pagination";
-import { Photo, Profile } from "../app/models/profile";
+import { Photo, Profile, UserProjects } from "../app/models/profile";
 import { Project, ProjectFormValues } from "../app/models/project";
 import { User, userFormValues } from "../app/models/user";
 import { store } from "../app/stores/store";
@@ -125,6 +125,10 @@ const Profiles = {
     requests.post(`/tracking/${username}`, {}),
   listTrackings: (username: string, predicate: string) =>
     requests.get<Profile[]>(`/tracking/${username}?predicate=${predicate}`),
+  listProjects: (username: string, predicate: string) =>
+    requests.get<UserProjects[]>(
+      `/profiles/${username}/projects?predicate=${predicate}`
+    ),
 };
 
 const agent = {

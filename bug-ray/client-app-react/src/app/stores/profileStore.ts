@@ -1,6 +1,6 @@
 import { makeAutoObservable, reaction, runInAction } from "mobx";
 import agent from "../../api/agent";
-import { Photo, Profile } from "../models/profile";
+import { Photo, Profile, UserProjects } from "../models/profile";
 import { store } from "./store";
 
 export default class ProfileStore {
@@ -11,6 +11,8 @@ export default class ProfileStore {
   trackings: Profile[] = [];
   loadingTrackings: boolean = false;
   activeTab: number = 0;
+  userProjects: UserProjects[] = [];
+  loadingProjects = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -18,8 +20,8 @@ export default class ProfileStore {
     reaction(
       () => this.activeTab,
       (activeTab) => {
-        if (activeTab === 2 || activeTab === 3) {
-          const predicate = activeTab === 2 ? "trackers" : "trackings";
+        if (activeTab === 3 || activeTab === 4) {
+          const predicate = activeTab === 3 ? "trackers" : "trackings";
           this.loadTrackings(predicate);
         } else {
           this.trackings = [];
@@ -194,6 +196,25 @@ export default class ProfileStore {
       console.log(error);
       runInAction(() => {
         this.loadingTrackings = false;
+      });
+    }
+  };
+
+  loadUserProjects = async (username: string, predicate?: string) => {
+    this.loadingProjects = true;
+    try {
+      const activities = await agent.Profiles.listProjects(
+        username,
+        predicate!
+      );
+      runInAction(() => {
+        this.userProjects = activities;
+        this.loadingProjects = false;
+      });
+    } catch (error) {
+      console.log(error);
+      runInAction(() => {
+        this.loadingProjects = false;
       });
     }
   };

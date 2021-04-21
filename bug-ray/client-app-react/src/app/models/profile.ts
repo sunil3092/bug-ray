@@ -24,3 +24,9 @@ export interface Photo {
   url: string;
   isMain: boolean;
 }
+
+export interface UserProjects {
+  id: string;
+  name: string;
+  estimate: Date;
+}
