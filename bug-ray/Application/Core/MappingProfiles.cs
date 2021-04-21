@@ -40,6 +40,12 @@ namespace Application.Core
                 .ForMember(d => d.Username, o => o.MapFrom(s => s.Author.UserName))
                 .ForMember(d => d.Image, o => o.MapFrom(s => s.Author.Photos.FirstOrDefault(x => x.IsMain).Url));
 
+            CreateMap<ProjectContributor, Application.ProfileBL.UserContributionDto>()
+            .ForMember(d => d.Id, o => o.MapFrom(s => s.Project.Id))
+            .ForMember(d => d.Estimate, o => o.MapFrom(s => s.Project.Estimate))
+            .ForMember(d => d.Name, o => o.MapFrom(s => s.Project.Name))
+            .ForMember(d => d.HostUsername, o => o.MapFrom(s => s.Project.Contributors.FirstOrDefault(x => x.IsOwner).AppUser.UserName));
+
         }
     }
 }
