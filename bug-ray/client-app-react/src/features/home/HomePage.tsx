@@ -8,6 +8,8 @@ import {
   Image,
   Header,
   Grid,
+  Divider,
+  Icon,
 } from "semantic-ui-react";
 import { useStore } from "../../app/stores/store";
 import LoginForm from "../users/LoginForm";
@@ -36,8 +38,11 @@ const HomePage = () => {
               <Header
                 as="h1"
                 inverted
-                content={"Welcome " + userStore.user?.displayName}
+                content={"Continue as " + userStore.user?.displayName}
               />
+            </Grid.Row>
+            <Grid.Row>
+              <Header as="h3" inverted content={"OR"} />
             </Grid.Row>
             <Grid.Row>
               <Button
@@ -51,6 +56,9 @@ const HomePage = () => {
           </Grid>
         ) : (
           <>
+            <Icon circular name="bug" size="huge" bordered />
+            <Header as="h1" content="Welcome to Bug-Ray" inverted />
+            <Divider />
             <Button
               onClick={() => modalStore.openModal(<LoginForm />)}
               size="massive"
@@ -58,6 +66,7 @@ const HomePage = () => {
               circular
               icon="sign in alternate"
               className="whiteGlow"
+              content="Login"
             />
             <Button
               onClick={() => modalStore.openModal(<RegisterForm />)}
@@ -66,6 +75,7 @@ const HomePage = () => {
               circular
               icon="pencil alternate"
               className="whiteGlow"
+              content="Register"
             />
           </>
         )}
