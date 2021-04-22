@@ -34,7 +34,7 @@ namespace Application.ProjectBL
             public async Task<Result<PagedList<ProjectDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var query = _context.Projects
-                .Where(d => d.Estimate >= request.Params.Estimate)
+                .Where(d => d.Estimate <= request.Params.Estimate)
                 .OrderBy(d => d.Estimate)
                 .ProjectTo<ProjectDto>(_mapper.ConfigurationProvider, new { currentUserName = _userAccessor.GetUsername() })
                 .AsQueryable();
