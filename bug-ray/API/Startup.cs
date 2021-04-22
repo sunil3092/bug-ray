@@ -56,6 +56,11 @@ namespace API
 
             app.UseRouting();
 
+            // this will look for client in API folder, i.e wwwroot folder that we have created.
+            //wwwroot is the default folder name it searched for.
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
             app.UseCors("CorsPolicy");
 
             app.UseAuthentication();
@@ -65,6 +70,7 @@ namespace API
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<DiscussionHub>("/discuss");
+                endpoints.MapFallbackToController("Index", "Fallback");
             });
         }
     }
