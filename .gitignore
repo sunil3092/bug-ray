@@ -11,7 +11,6 @@ bin/
 obj/
 .vscode/
 *.db
-wwwroot/
 
 # Common node modules locations
 /node_modules
