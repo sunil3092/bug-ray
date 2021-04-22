@@ -56,7 +56,7 @@ namespace API
             .FontSources(s => s.Self().CustomSources("https://fonts.gstatic.com", "data:"))
             .FormActions(s => s.Self())
             .FrameAncestors(s => s.Self())
-            .ImageSources(s => s.Self().CustomSources("https://res.cloudinary.com", "https://bugray.herokuapp.com/"))
+            //.ImageSources(s => s.Self().CustomSources("https://res.cloudinary.com", "https://bugray.herokuapp.com/"))
             .ScriptSources(s => s.Self().CustomSources("sha256-oB/ZFBXLzr4Ir1eg4Q7sPnjzmtiXb7/OB+TK7yXLrck="))
             );
 
