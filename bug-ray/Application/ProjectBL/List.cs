@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -33,8 +34,9 @@ namespace Application.ProjectBL
             }
             public async Task<Result<PagedList<ProjectDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
+                //TODO: make Date as Optional Param
                 var query = _context.Projects
-                .Where(d => d.Estimate <= request.Params.Estimate)
+                .Where(d => d.Estimate >= request.Params.Estimate)
                 .OrderBy(d => d.Estimate)
                 .ProjectTo<ProjectDto>(_mapper.ConfigurationProvider, new { currentUserName = _userAccessor.GetUsername() })
                 .AsQueryable();
@@ -47,7 +49,6 @@ namespace Application.ProjectBL
                 if (request.Params.IsOwner && !request.Params.IsContributing)
                 {
                     query = query.Where(x => x.HostUsername == _userAccessor.GetUsername());
-
                 }
 
                 return Result<PagedList<ProjectDto>>.Success(await PagedList<ProjectDto>.CreateAsync(query, request.Params.PageNumber, request.Params.PageSize));
