@@ -36,8 +36,8 @@ namespace Application.ProjectBL
             {
                 //TODO: make Date as Optional Param
                 var query = _context.Projects
-                .Where(d => d.Estimate >= request.Params.Estimate)
-                .OrderBy(d => d.Estimate)
+                //.Where(d => d.Estimate >= request.Params.Estimate)
+                //.OrderBy(d => d.Estimate)
                 .ProjectTo<ProjectDto>(_mapper.ConfigurationProvider, new { currentUserName = _userAccessor.GetUsername() })
                 .AsQueryable();
 

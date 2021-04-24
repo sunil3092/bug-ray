@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { Fragment } from "react";
-import { Item, Label } from "semantic-ui-react";
+import { Item } from "semantic-ui-react";
 import { useStore } from "../../../app/stores/store";
 import ProjectListItem from "./ProjectListItem";
 
@@ -13,10 +13,9 @@ const ProjectList = () => {
     <>
       {groupByEstimate.map(([group, projects]) => (
         <Fragment key={group}>
-          <Label size="large" color="blue">
-            {/* {format(group, 'eeee do MMMM')} */}
-            {group}
-          </Label>
+          {/* <Label size="large" color="blue">
+            {format(new Date(group), "eeee do MMMM")}
+          </Label> */}
           <Item.Group divided>
             {projects.map((project) => (
               <ProjectListItem key={project.id} project={project} />

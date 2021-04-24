@@ -1,7 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
-import Calendar from "react-calendar";
-import { Dropdown, Icon, Menu } from "semantic-ui-react";
+import { Icon, Menu } from "semantic-ui-react";
 import { useStore } from "../../../app/stores/store";
 
 const ProjectFilters = () => {
@@ -33,7 +32,7 @@ const ProjectFilters = () => {
         >
           Contributing
         </Menu.Item>
-        <Dropdown text="By Date" pointing="left" className="link item">
+        {/* <Dropdown text="By Date" pointing="left" className="link item">
           <Dropdown.Menu>
             <Dropdown.Item>
               <Calendar
@@ -42,7 +41,7 @@ const ProjectFilters = () => {
               />
             </Dropdown.Item>
           </Dropdown.Menu>
-        </Dropdown>
+        </Dropdown> */}
       </Menu>
     </>
   );
