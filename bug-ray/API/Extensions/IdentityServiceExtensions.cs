@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using System.Threading.Tasks;
 using API.Services;
@@ -32,6 +33,10 @@ namespace API.Extensions
                    IssuerSigningKey = key,
                    ValidateIssuer = false,
                    ValidateAudience = false,
+                   //has default 5 mins
+                   ValidateLifetime = true,
+                   //Remove default 5 mins
+                   ClockSkew = TimeSpan.Zero,
                };
 
                opt.Events = new JwtBearerEvents

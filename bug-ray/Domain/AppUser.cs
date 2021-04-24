@@ -13,6 +13,7 @@ namespace Domain
 
         public ICollection<UserTracking> Trackings { get; set; }
         public ICollection<UserTracking> Trackers { get; set; }
+        public ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
 
     }
 }

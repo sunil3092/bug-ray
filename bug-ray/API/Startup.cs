@@ -57,7 +57,7 @@ namespace API
             .FormActions(s => s.Self())
             .FrameAncestors(s => s.Self())
             //.ImageSources(s => s.Self().CustomSources("https://res.cloudinary.com", "https://bugray.herokuapp.com/"))
-            .ScriptSources(s => s.Self().CustomSources("sha256-oB/ZFBXLzr4Ir1eg4Q7sPnjzmtiXb7/OB+TK7yXLrck="))
+            .ScriptSources(s => s.Self().CustomSources("sha256-oB/ZFBXLzr4Ir1eg4Q7sPnjzmtiXb7/OB+TK7yXLrck=", "sha256-57TAiO6dJuRpKR7vMQizpLN3W7bOMNPn325F/T4T788="))
             );
 
             if (env.IsDevelopment())
